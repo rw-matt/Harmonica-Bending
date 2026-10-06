@@ -1,6 +1,6 @@
-# Harmonica Studio — Bend Trainer
+# Harmonica Bending
 
-A static site for learning to bend notes on the 10-hole diatonic harmonica.
+A free harmonica bending trainer and FAQ for the 10-hole diatonic harmonica, planned for **harmonicabending.com**.
 
 - **`index.html`**: the Bend Trainer, laid out as three steps. Pick a key (all 12, plus Low D/E/F/G and High G), choose a bend, and play. The mic shows your pitch on a bend-depth gauge and a live trace, scores each attempt, plays reference tones and the slide, and lets you record a take to compare.
 - **`faq.html`**: the 10 most common bending questions, answered in our own words, with links to video lessons and sources.
@@ -19,12 +19,23 @@ Only settings are kept in the browser's `localStorage`: theme, harmonica key, se
 index.html        Trainer page
 faq.html          FAQ page
 favicon.svg
+llms.txt          Plain-text site summary for AI assistants (llmstxt.org)
+robots.txt        Allows all crawlers, points to the sitemap
+sitemap.xml
+scripts/build-faq-schema.py   Rebuilds the FAQ page's JSON-LD from its visible answers
 css/styles.css    Light/dark tokens + both pages
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
 js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 ```
+
+## SEO and structured data
+
+- Both pages have a keyword-focused `<title>`, meta description, canonical URL, and Open Graph/Twitter tags, all pointing at `https://harmonicabending.com`. If the domain changes, search-and-replace it across `index.html`, `faq.html`, `llms.txt`, `robots.txt`, `sitemap.xml` and the script.
+- `index.html` carries JSON-LD for `WebSite`, `WebPage`, `WebApplication` (free, browser-based) and a `HowTo` that matches the visible "How it works" section.
+- `faq.html` carries `FAQPage` (all 10 questions) and `BreadcrumbList`. The answer text is generated from the page itself, so **after editing any FAQ answer, run** `python3 scripts/build-faq-schema.py` to keep them identical.
+- Canonical URLs use `/faq` (no `.html`), which is how Cloudflare Pages serves `faq.html`. Update `lastmod` in `sitemap.xml` when content changes.
 
 ## Run locally
 

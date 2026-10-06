@@ -1,0 +1,31 @@
+# Harmonica Bending
+
+> Harmonica Bending (harmonicabending.com) is a free, browser-based harmonica bending trainer and FAQ for the 10-hole diatonic (Richter-tuned) harmonica. The trainer listens through the microphone, shows how far a note has bent on a gauge and a live pitch trace, and gives specific coaching after every attempt. No download or account is needed, and audio never leaves the user's device.
+
+## Pages
+
+- [Harmonica Bending Trainer](https://harmonicabending.com/): Pick a key and a bend, play into the microphone, and get live pitch feedback and coaching. Supports all 12 keys plus Low D, Low E, Low F, Low G and High G; every draw bend and blow bend; and overblows and overdraws.
+- [Harmonica Bending FAQ](https://harmonicabending.com/faq): Plain answers to the ten most common bending questions, with free video lessons and sources linked under each one.
+
+## FAQ questions
+
+- [What is bending, and why does it work?](https://harmonicabending.com/faq#what)
+- [Which holes bend, and how far?](https://harmonicabending.com/faq#which)
+- [How do I get my very first bend?](https://harmonicabending.com/faq#first)
+- [Why can't I bend at all?](https://harmonicabending.com/faq#cant)
+- [Why does my 2 draw sound airy, flat, or not sound at all?](https://harmonicabending.com/faq#two)
+- [How do I control the three bends on the 3 draw?](https://harmonicabending.com/faq#three)
+- [How do I know I'm really bending, and in tune?](https://harmonicabending.com/faq#know)
+- [Does the key of my harmonica change how it bends?](https://harmonicabending.com/faq#keys)
+- [Is it me, or is my harmonica the problem?](https://harmonicabending.com/faq#harp)
+- [What are blow bends, overblows and overdraws?](https://harmonicabending.com/faq#over)
+
+## Key facts
+
+- On a standard 10-hole diatonic harmonica, draw bends are on holes 1–6: hole 1 bends a half step, hole 2 a whole step, hole 3 a step and a half, hole 4 a half step, and hole 6 a half step. Hole 5 barely bends.
+- Blow bends are on holes 8–10: hole 8 a half step, hole 9 a half step, hole 10 a whole step. Hole 7 barely bends.
+- The pattern is the same in every key; only the actual notes change.
+- Overblows are on holes 1, 4, 5 and 6; overdraws on holes 7, 9 and 10. They raise the pitch and are an advanced technique.
+- Most players get their first bend on the 4 draw or the 1 draw. Bending comes from the tongue, jaw and throat, not from drawing harder.
+- In the trainer, a note counts as on target within ±20 cents, and a bend counts as "nailed" when held on target for 0.35 seconds.
+- Practice results in the trainer are not saved; they reset when the page is closed. Only settings (key, bend, theme) are remembered in the browser.

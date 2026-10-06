@@ -1,4 +1,4 @@
-/* ───────── Harmonica Studio · Inkwell / Lunar Eclipse / Creme Brulee / Au Lait ───────── */
+/* ───────── Harmonica Bending · Inkwell / Lunar Eclipse / Creme Brulee / Au Lait ───────── */
 
 :root, :root[data-theme="light"] {
   color-scheme: light;
@@ -222,6 +222,15 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .session .note { margin: 4px 0 0; font-size: 12px; color: var(--ink-3); }
 .tip p { margin: 0; font-size: 14px; color: var(--ink-2); }
 .tip .more { font-size: 13px; font-weight: 600; text-decoration: none; margin-top: 4px; }
+
+.about { display: grid; gap: 10px; }
+.about h2 { font-size: 22px; }
+.about p { margin: 0; max-width: 75ch; }
+.about-steps { margin: 4px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.about-steps li { counter-increment: s; font-size: 14px; color: var(--ink-2); display: grid; gap: 4px; align-content: start; }
+.about-steps li::before { content: counter(s); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); font-size: 12px; font-weight: 700; }
+.about-steps b { color: var(--ink); font-weight: 600; }
+@media (max-width: 760px) { .about-steps { grid-template-columns: minmax(0, 1fr); } }
 
 .footer { text-align: center; color: var(--ink-3); font-size: 13px; margin-top: 8px; }
 .footer a { color: var(--ink-2); }

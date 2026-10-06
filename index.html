@@ -3,8 +3,83 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <title>Harmonica Studio · Bend Trainer</title>
-  <meta name="description" content="Learn to bend notes on the diatonic harmonica. Pick your key, choose a bend, and get live pitch feedback from your microphone.">
+  <title>Harmonica Bending Trainer · Free Online Bend Tuner</title>
+  <meta name="description" content="Free online harmonica bending trainer. Pick your key and a bend, play into your mic, and get live pitch feedback and coaching. No download or sign-up.">
+  <link rel="canonical" href="https://harmonicabending.com/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Harmonica Bending">
+  <meta property="og:title" content="Harmonica Bending Trainer · Free Online Bend Tuner">
+  <meta property="og:description" content="Pick your key and a bend, play into your mic, and see exactly how far your note bent, with coaching after every attempt.">
+  <meta property="og:url" content="https://harmonicabending.com/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="Harmonica Bending Trainer · Free Online Bend Tuner">
+  <meta name="twitter:description" content="Pick your key and a bend, play into your mic, and see exactly how far your note bent, with coaching after every attempt.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://harmonicabending.com/#website",
+        "url": "https://harmonicabending.com/",
+        "name": "Harmonica Bending",
+        "description": "A free online harmonica bending trainer and bending FAQ for the 10-hole diatonic harmonica.",
+        "inLanguage": "en"
+      },
+      {
+        "@type": "WebPage",
+        "@id": "https://harmonicabending.com/#webpage",
+        "url": "https://harmonicabending.com/",
+        "name": "Harmonica Bending Trainer · Free Online Bend Tuner",
+        "isPartOf": { "@id": "https://harmonicabending.com/#website" },
+        "mainEntity": { "@id": "https://harmonicabending.com/#app" },
+        "inLanguage": "en"
+      },
+      {
+        "@type": "WebApplication",
+        "@id": "https://harmonicabending.com/#app",
+        "name": "Harmonica Bending Trainer",
+        "url": "https://harmonicabending.com/",
+        "description": "A free, browser-based trainer for learning to bend notes on the 10-hole diatonic harmonica. It listens through your microphone, shows how far your note has bent on a gauge and a live pitch trace, and gives specific coaching after every attempt.",
+        "applicationCategory": "MusicApplication",
+        "applicationSubCategory": "Music education",
+        "operatingSystem": "Any (runs in a web browser)",
+        "browserRequirements": "Requires a microphone and a modern browser such as Chrome, Edge or Safari.",
+        "isAccessibleForFree": true,
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "inLanguage": "en",
+        "audience": { "@type": "Audience", "audienceType": "Beginner and intermediate harmonica players" },
+        "featureList": [
+          "Live pitch detection from your microphone",
+          "Bend-depth gauge and pitch trace with a target band",
+          "Coaching feedback after every attempt",
+          "All 12 keys plus Low D, Low E, Low F, Low G and High G",
+          "Every draw bend and blow bend, plus overblows and overdraws",
+          "Reference tones for the natural note, the target note and the slide between them",
+          "Record a take and compare it with the target",
+          "Light and dark themes",
+          "No download, no account; audio never leaves your device"
+        ],
+        "isPartOf": { "@id": "https://harmonicabending.com/#website" }
+      },
+      {
+        "@type": "HowTo",
+        "@id": "https://harmonicabending.com/#howto",
+        "name": "How to practice a harmonica bend with the Harmonica Bending Trainer",
+        "description": "Use your microphone to practice landing a bent note in tune.",
+        "tool": [
+          { "@type": "HowToTool", "name": "10-hole diatonic harmonica" },
+          { "@type": "HowToTool", "name": "Microphone (built into most phones and laptops)" }
+        ],
+        "step": [
+          { "@type": "HowToStep", "position": 1, "name": "Pick your key", "text": "Choose the key stamped on your harmonica. All 12 keys are supported, plus Low D, Low E, Low F, Low G and High G." },
+          { "@type": "HowToStep", "position": 2, "name": "Choose a bend", "text": "Pick the bend you want to practice. New players should start with the 4 draw half-step bend." },
+          { "@type": "HowToStep", "position": 3, "name": "Play and watch the gauge", "text": "Press Start listening, play the natural note, then bend it down until the gauge and pitch trace settle in the green band. Hold it, release, and read the coaching tip for what to adjust." }
+        ]
+      }
+    ]
+  }
+  </script>
   <meta name="theme-color" content="#dcd7c9" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#2c3639" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
@@ -35,7 +110,7 @@
     <header class="topbar">
       <a class="brand" href="index.html">
         <span class="brand-mark"><svg><use href="#i-logo"/></svg></span>
-        <span class="brand-name">Harmonica Studio</span>
+        <span class="brand-name">Harmonica Bending</span>
       </a>
       <nav class="steps" aria-label="Setup">
         <button type="button" class="step" id="stepKey" aria-expanded="false" aria-controls="keySheet"><b>1</b><span><i>Key · </i><em id="stepKeyVal">C</em></span><svg class="chev"><use href="#i-chev"/></svg></button>
@@ -150,6 +225,16 @@
         <a class="more" href="faq.html">More help in the Bending FAQ →</a>
       </section>
     </div>
+
+    <section class="card about" aria-labelledby="aboutTitle">
+      <h2 class="serif" id="aboutTitle">How the Harmonica Bending Trainer works</h2>
+      <p class="muted">A free, online trainer for bending notes on the 10-hole diatonic harmonica. It listens through your microphone, shows how far your note has bent, and tells you what to fix after every attempt. There's nothing to install and no account, and your audio never leaves your device.</p>
+      <ol class="about-steps">
+        <li><b>Pick your key.</b> All 12 keys, plus Low D, Low E, Low F, Low G and High G.</li>
+        <li><b>Choose a bend.</b> Every draw bend and blow bend, with overblows and overdraws for advanced players. New to bending? Start with the 4 draw half step.</li>
+        <li><b>Play and watch the gauge.</b> Play the natural note, then bend it down until the gauge settles in the green. Hold it, let go, and read the tip.</li>
+      </ol>
+    </section>
 
     <footer class="footer">
       Works best in Chrome, Edge or Safari, with headphones off and the harmonica a few inches from the mic.
