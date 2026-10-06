@@ -26,7 +26,8 @@ llms.txt          Plain-text site summary for AI assistants (llmstxt.org)
 robots.txt        Allows all crawlers, points to the sitemap
 sitemap.xml
 scripts/build-faq-schema.py   Rebuilds the FAQ page's JSON-LD from its visible answers
-css/styles.css    Light/dark tokens + both pages
+css/styles.css    Fonts, light/dark tokens + all pages
+fonts/            Self-hosted Fraunces + Inter (variable woff2, Latin + Latin Extended) and their OFL licenses
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
