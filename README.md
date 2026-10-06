@@ -19,6 +19,7 @@ Both pages load Google Analytics 4 (`G-1V1MS5JSF1`) with Consent Mode v2. In the
 
 ```
 index.html        Trainer page
+how-to.html       How To page: three steps and a call to action back to the trainer
 faq.html          FAQ page
 privacy.html      Privacy policy (update it if analytics, hosting or fonts change)
 favicon.svg
@@ -42,7 +43,8 @@ The whole site uses one font: **League Spartan** by [The League of Moveable Type
 ## SEO and structured data
 
 - Both pages have a keyword-focused `<title>`, meta description, canonical URL, and Open Graph/Twitter tags, all pointing at `https://harmonicabending.com`. If the domain changes, search-and-replace it across `index.html`, `faq.html`, `llms.txt`, `robots.txt`, `sitemap.xml` and the script.
-- `index.html` carries JSON-LD for `WebSite`, `WebPage`, `WebApplication` (free, browser-based) and a `HowTo` that matches the visible "How it works" section.
+- `index.html` carries JSON-LD for `WebSite`, `WebPage` and `WebApplication` (free, browser-based).
+- `how-to.html` carries `HowTo` (matching the three visible step cards) and `BreadcrumbList`.
 - `faq.html` carries `FAQPage` (all 10 questions) and `BreadcrumbList`. The answer text is generated from the page itself, so **after editing any FAQ answer, run** `python3 scripts/build-faq-schema.py` to keep them identical.
 - Canonical URLs use `/faq` (no `.html`), which is how Cloudflare Pages serves `faq.html`. Update `lastmod` in `sitemap.xml` when content changes.
 

@@ -126,7 +126,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 /* ── Layout ── */
 html { scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
-#about, #holeMap, .qa { scroll-margin-top: 16px; }
+#holeMap, .qa, .step-card { scroll-margin-top: 16px; }
 
 /* Side menu: a floating pill on the left; becomes a bottom tab bar on small screens */
 .rail { position: fixed; z-index: 30; left: 20px; top: 50%; transform: translateY(-50%); display: flex; flex-direction: column; gap: 6px; padding: 7px;
@@ -256,15 +256,6 @@ body[data-mood="on"] .instrument { background: var(--inst-glow-on), var(--card);
 .tip p { margin: 0; font-size: 14px; color: var(--ink-2); }
 .tip .more { font-size: 13px; font-weight: 600; text-decoration: none; margin-top: 4px; }
 
-.about { display: grid; gap: 10px; }
-.about h2 { font-size: 22px; }
-.about p { margin: 0; max-width: 75ch; }
-.about-steps { margin: 4px 0 0; padding: 0; list-style: none; counter-reset: s; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
-.about-steps li { counter-increment: s; font-size: 14px; color: var(--ink-2); display: grid; gap: 4px; align-content: start; }
-.about-steps li::before { content: counter(s); width: 24px; height: 24px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); font-size: 12px; font-weight: 700; }
-.about-steps b { color: var(--ink); font-weight: 600; }
-@media (max-width: 760px) { .about-steps { grid-template-columns: minmax(0, 1fr); } }
-
 .footer { text-align: center; color: var(--ink-3); font-size: 13px; margin-top: 8px; display: grid; justify-items: center; gap: 10px; }
 .footer p { margin: 0; }
 .kofi { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); font-weight: 600; font-size: 14px; text-decoration: none; transition: background-color 180ms, color 180ms; }
@@ -299,6 +290,24 @@ body[data-mood="on"] .instrument { background: var(--inst-glow-on), var(--card);
 .legal code { font-size: 13px; padding: 1px 6px; border-radius: 6px; background: var(--track); color: var(--ink); }
 .legal .linkish { font-size: inherit; font-weight: 600; vertical-align: baseline; }
 @media (max-width: 640px) { .legal { padding: 20px 18px; } }
+
+/* ── How To page ── */
+.steps-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+.step-card { display: grid; gap: 10px; align-content: start; padding: 24px; background: var(--inst-glow), var(--card); overflow: hidden; }
+.step-top { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+.step-num { width: 52px; height: 52px; border-radius: 50%; display: grid; place-items: center; background: var(--accent-grad); color: var(--on-accent);
+  font-family: var(--display); font-weight: 700; font-size: 24px; box-shadow: 0 1px 0 rgba(255, 255, 255, 0.35) inset, 0 10px 24px -10px var(--accent); }
+.step-icon { width: 40px; height: 40px; border-radius: 12px; display: grid; place-items: center; background: var(--accent-soft); color: var(--accent-text); }
+.step-icon svg { width: 20px; height: 20px; }
+.step-card h2 { font-size: 24px; line-height: 1.15; }
+.step-card p { margin: 0; color: var(--ink-2); }
+.step-tip { margin-top: 6px !important; padding: 10px 12px; border-radius: 12px; background: var(--track); font-size: 14px; color: var(--ink) !important; }
+.cta-card { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 28px; background: var(--inst-glow), var(--card); }
+.cta-card h2 { font-size: 26px; line-height: 1.15; margin-bottom: 4px; }
+.cta-card p { margin: 0; color: var(--ink-2); }
+.cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cta-actions .btn { text-decoration: none; min-height: 46px; padding: 0 20px; font-size: 15px; }
+@media (max-width: 900px) { .steps-grid { grid-template-columns: minmax(0, 1fr); } }
 
 /* ── FAQ page ── */
 .faq-intro { padding: 18px 0 4px; }
@@ -344,6 +353,7 @@ body[data-mood="on"] .instrument { background: var(--inst-glow-on), var(--card);
   .shell { padding-bottom: 104px; }
   .consent, .toast { bottom: 92px; }
   .topbar { grid-template-columns: 1fr auto; }
+  .topbar > span:empty { display: none; }
   .steps { grid-column: 1 / -1; grid-row: 2; justify-content: center; flex-wrap: wrap; }
   .trio { grid-template-columns: minmax(0, 1fr); }
   .faq-layout { grid-template-columns: minmax(0, 1fr); }

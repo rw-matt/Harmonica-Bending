@@ -5,6 +5,7 @@
 ## Pages
 
 - [Harmonica Bending Trainer](https://harmonicabending.com/): Pick a key and a bend, play into the microphone, and get live pitch feedback and coaching. Supports all 12 keys plus Low D, Low E, Low F, Low G and High G; every draw bend and blow bend; and overblows and overdraws.
+- [How to use the trainer](https://harmonicabending.com/how-to): Three steps: pick your harmonica's key, choose a bend on the hole map, then play into the microphone and watch the gauge settle in the green band.
 - [Harmonica Bending FAQ](https://harmonicabending.com/faq): Plain answers to the ten most common bending questions, with free video lessons and sources linked under each one.
 - [Privacy Policy](https://harmonicabending.com/privacy): Microphone audio is processed on-device and never uploaded; Google Analytics runs with consent in the EU, UK and Switzerland.
 
