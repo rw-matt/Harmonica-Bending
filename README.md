@@ -13,13 +13,14 @@ No framework, no build step and no backend. Plain HTML, CSS and JavaScript modul
 
 Only settings are kept in the browser's `localStorage`: theme, harmonica key, selected bend and the advanced toggle. Practice results ("Today's practice") and recorded takes live in memory and are gone when the page closes, and the page says so. Microphone audio is processed in the browser and never uploaded.
 
-Both pages load Google Analytics 4 (`G-1V1MS5JSF1`). GA4's enhanced measurement records outbound clicks, so Ko-fi button clicks show up without extra code.
+Both pages load Google Analytics 4 (`G-1V1MS5JSF1`) with Consent Mode v2. In the EEA, UK and Switzerland analytics cookies stay off until the visitor clicks "Allow analytics" in the banner (`js/consent.js`), which only appears for European time zones; everywhere else analytics is on by default. Anyone can change their choice from "Cookie settings" in the footer, and declining deletes any `_ga` cookies. Ads storage is always denied. GA4's enhanced measurement records outbound clicks, so Ko-fi button clicks show up without extra code.
 
 ## Project layout
 
 ```
 index.html        Trainer page
 faq.html          FAQ page
+privacy.html      Privacy policy (update it if analytics, hosting or fonts change)
 favicon.svg
 llms.txt          Plain-text site summary for AI assistants (llmstxt.org)
 robots.txt        Allows all crawlers, points to the sitemap
@@ -29,6 +30,7 @@ css/styles.css    Light/dark tokens + both pages
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
+js/consent.js     Cookie banner for Google Analytics
 js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 ```
 

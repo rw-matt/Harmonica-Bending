@@ -1,17 +1,30 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1V1MS5JSF1"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <!-- Google tag (gtag.js) with Consent Mode v2: analytics stays off in the EEA, UK and
+       Switzerland until the visitor allows it (banner in js/consent.js). Ads are never used. -->
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'denied',
+      region: ['AT','BE','BG','HR','CY','CZ','DK','EE','FI','FR','DE','GR','HU','IE','IT','LV','LT','LU','MT','NL',
+               'PL','PT','RO','SK','SI','ES','SE','IS','LI','NO','GB','CH']
+    });
+    gtag('consent', 'default', {
+      ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied', analytics_storage: 'granted'
+    });
+    try {
+      var choice = JSON.parse(localStorage.getItem('hs.consent'));
+      if (choice) gtag('consent', 'update', { analytics_storage: choice });
+    } catch (e) { /* storage unavailable */ }
     gtag('js', new Date());
-
     gtag('config', 'G-1V1MS5JSF1');
   </script>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-1V1MS5JSF1"></script>
+  <script src="js/consent.js" defer></script>
   <title>Harmonica Bending Trainer · Free Online Bend Tuner</title>
   <meta name="description" content="Free online harmonica bending trainer. Pick your key and a bend, play into your mic, and get live pitch feedback and coaching. No download or sign-up.">
   <link rel="canonical" href="https://harmonicabending.com/">
@@ -248,6 +261,7 @@
 
     <footer class="footer">
       <a class="kofi" href="https://ko-fi.com/harpbends" target="_blank" rel="noopener"><svg><use href="#i-cup"/></svg>Enjoying it? Buy me a coffee on Ko-fi</a>
+      <p class="footer-links"><button type="button" class="linkish" data-cookie-settings>Cookie settings</button> · <a href="privacy.html">Privacy</a></p>
       <p>Works best in Chrome, Edge or Safari, with headphones off and the harmonica a few inches from the mic.</p>
     </footer>
   </div>

@@ -243,6 +243,28 @@ body[data-mood="on"] .glow.good { opacity: 1; }
   transform: translate(-50%, 20px); opacity: 0; visibility: hidden; transition: transform 300ms, opacity 300ms, visibility 0s 300ms; }
 .toast.show { transform: translate(-50%, 0); opacity: 1; visibility: visible; transition: transform 300ms, opacity 300ms; }
 
+/* Cookie banner */
+.consent { position: fixed; left: 50%; bottom: 16px; transform: translateX(-50%); z-index: 60; width: min(560px, calc(100% - 32px));
+  display: grid; gap: 12px; padding: 16px 18px; background: var(--card-solid); animation: sheet-in 220ms ease; }
+.consent p { margin: 0; font-size: 14px; color: var(--ink-2); }
+.consent-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
+.footer-links { font-size: 12px; }
+.footer-links .linkish, .footer-links a { font-size: 12px; font-weight: 500; color: var(--ink-3); }
+.footer-links a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
+.footer-links a:hover, .footer-links .linkish:hover { color: var(--ink); }
+
+/* Legal page */
+.legal { padding: 28px 32px; max-width: 780px; color: var(--ink-2); }
+.legal h2 { font-size: 22px; color: var(--ink); margin: 28px 0 8px; }
+.legal h2:first-child { margin-top: 0; }
+.legal p { margin: 0 0 12px; }
+.legal ul { margin: 0 0 12px; padding-left: 20px; }
+.legal li { margin-bottom: 6px; }
+.legal strong { color: var(--ink); }
+.legal code { font-size: 13px; padding: 1px 6px; border-radius: 6px; background: var(--track); color: var(--ink); }
+.legal .linkish { font-size: inherit; font-weight: 600; vertical-align: baseline; }
+@media (max-width: 640px) { .legal { padding: 20px 18px; } }
+
 /* ── FAQ page ── */
 .faq-intro { padding: 18px 0 4px; }
 .faq-intro h1 { font-size: clamp(34px, 5vw, 50px); line-height: 1.05; }
