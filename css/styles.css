@@ -302,12 +302,17 @@ body[data-mood="on"] .instrument { background: var(--inst-glow-on), var(--card);
 .step-card h2 { font-size: 24px; line-height: 1.15; }
 .step-card p { margin: 0; color: var(--ink-2); }
 .step-tip { margin-top: 6px !important; padding: 10px 12px; border-radius: 12px; background: var(--track); font-size: 14px; color: var(--ink) !important; }
-.cta-card { display: flex; align-items: center; justify-content: space-between; gap: 20px; flex-wrap: wrap; padding: 28px; background: var(--inst-glow), var(--card); }
+.cta-card { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); align-items: center; gap: 32px; padding: 68px 48px; background: var(--inst-glow), var(--card); }
 .cta-card h2 { font-size: 26px; line-height: 1.15; margin-bottom: 4px; }
 .cta-card p { margin: 0; color: var(--ink-2); }
-.cta-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.cta-actions { display: grid; gap: 10px; justify-content: end; grid-template-columns: minmax(0, 260px); }
+.cta-actions .btn { justify-content: center; }
 .cta-actions .btn { text-decoration: none; min-height: 46px; padding: 0 20px; font-size: 15px; }
-@media (max-width: 900px) { .steps-grid { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 900px) {
+  .steps-grid { grid-template-columns: minmax(0, 1fr); }
+  .cta-card { grid-template-columns: minmax(0, 1fr); gap: 20px; padding: 48px 24px; }
+  .cta-actions { justify-content: stretch; grid-template-columns: minmax(0, 1fr); }
+}
 
 /* ── FAQ page ── */
 .faq-intro { padding: 18px 0 4px; }
