@@ -349,7 +349,7 @@ function drawTrace(now = performance.now()) {
   g.globalAlpha = 1;
 
   // semitone grid with note labels
-  g.font = '600 11px Inter, -apple-system, sans-serif';
+  g.font = '600 13px "League Spartan", -apple-system, sans-serif';
   g.textBaseline = 'middle';
   g.lineWidth = 1;
   for (let s = Math.ceil(bot / 100); s <= Math.floor(top / 100); s++) {

@@ -27,7 +27,7 @@ robots.txt        Allows all crawlers, points to the sitemap
 sitemap.xml
 scripts/build-faq-schema.py   Rebuilds the FAQ page's JSON-LD from its visible answers
 css/styles.css    Fonts, light/dark tokens + all pages
-fonts/            Self-hosted League Spartan + Inter (variable woff2, Latin + Latin Extended) and their OFL licenses
+fonts/            Self-hosted League Spartan (variable woff2, Latin + Latin Extended) and its OFL license
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
@@ -37,10 +37,7 @@ js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 
 ## Fonts
 
-- **League Spartan** (headings, big numbers) by [The League of Moveable Type](https://github.com/theleagueof/league-spartan), designed by Micah Rich with the variable version by Tyler Finck.
-- **Inter** (body text) by [Rasmus Andersson](https://rsms.me/inter/).
-
-Both are SIL Open Font License fonts, served from `fonts/` with their license files and credited in every page footer.
+The whole site uses one font: **League Spartan** by [The League of Moveable Type](https://github.com/theleagueof/league-spartan), designed by Micah Rich with the variable version by Tyler Finck. Body text uses the regular (400) weight and headings use bold (700), all from one variable file. It's an SIL Open Font License font, served from `fonts/` with its license file and credited in every page footer.
 
 ## SEO and structured data
 
