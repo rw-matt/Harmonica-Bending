@@ -5,46 +5,53 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <title>Harmonica Bending FAQ · Harmonica Studio</title>
   <meta name="description" content="Answers to the 10 most common harmonica bending questions, with links to the best free video lessons.">
-  <meta name="theme-color" content="#07080c">
+  <meta name="theme-color" content="#dcd7c9" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#2c3639" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <script src="js/theme.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
-  <div class="backdrop" aria-hidden="true">
-    <div class="blob a"></div><div class="blob b"></div><div class="blob c"></div><div class="grain"></div>
-  </div>
+  <div class="backdrop" aria-hidden="true"><div class="glow a"></div><div class="glow b"></div></div>
 
   <svg width="0" height="0" style="position:absolute" aria-hidden="true">
     <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z"/></symbol>
     <symbol id="i-read" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="M4 5a2 2 0 0 1 2-2h12v16H6a2 2 0 0 0-2 2zM4 21V5M8 7h6"/></symbol>
+    <symbol id="i-logo" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 9h12a3 3 0 1 0-3-3"/><path d="M3 15h16a3 3 0 1 1-3 3"/><path d="M3 12h9"/></g></symbol>
+    <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+    <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" d="m6 9 6 6 6-6"/></symbol>
   </svg>
 
   <div class="shell">
-    <header class="topbar glass">
+    <header class="topbar">
       <a class="brand" href="index.html">
-        <span class="brand-mark" aria-hidden="true">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M3 9h12a3 3 0 1 0-3-3"/><path d="M3 15h16a3 3 0 1 1-3 3"/><path d="M3 12h9"/></svg>
-        </span>
-        <span>Harmonica Studio</span>
+        <span class="brand-mark"><svg><use href="#i-logo"/></svg></span>
+        <span class="brand-name">Harmonica Studio</span>
       </a>
-      <nav class="nav" aria-label="Main">
-        <a href="index.html">Trainer</a>
-        <a href="faq.html" aria-current="page">Bending FAQ</a>
-      </nav>
+      <span></span>
+      <div class="top-actions">
+        <a class="pill nav-link" href="index.html"><svg><use href="#i-wave"/></svg>Bend Trainer</a>
+        <div class="theme-toggle" role="group" aria-label="Color theme">
+          <button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg><use href="#i-sun"/></svg></button>
+          <button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg><use href="#i-moon"/></svg></button>
+        </div>
+      </div>
     </header>
 
-    <section class="hero">
-      <div>
-        <p class="eyebrow">Stuck on a bend?</p>
-        <h1>Bending FAQ</h1>
-        <p class="lede">The ten questions players ask most about bending, answered plainly — with the best free video lessons and the original sources linked under each one.</p>
-      </div>
+    <section class="faq-intro">
+      <span class="lbl">Stuck on a bend?</span>
+      <h1 class="serif">Bending FAQ</h1>
+      <p class="muted">The ten questions players ask most about bending, answered plainly, with the best free video lessons and the original sources linked under each one.</p>
     </section>
 
     <div class="faq-layout">
-      <nav class="toc glass" aria-label="Questions">
-        <span class="label">Questions</span>
+      <nav class="toc card" aria-label="Questions">
+        <span class="lbl">Questions</span>
         <ol>
           <li><a href="#what">What is bending?</a></li>
           <li><a href="#which">Which holes bend?</a></li>
@@ -61,8 +68,8 @@
 
       <div class="faq-list">
 
-        <details class="qa glass" id="what" open>
-          <summary><span class="num">1</span>What is bending, and why does it work?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="what" open>
+          <summary><span class="qn">1</span>What is bending, and why does it work?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Bending is lowering a note's pitch by changing the shape of your mouth and throat while you play. It gives you the bluesy "wail", and it also gives you notes the harmonica doesn't have built in.</p>
             <p>Each hole has two reeds, one for blowing and one for drawing. When you reshape your mouth so it resonates near a lower pitch, both reeds start working together and the note slides down toward the lower reed. That's why <strong>a normal bend always goes down</strong>, and why the size of the gap between a hole's two reeds sets how far it can bend.</p>
@@ -74,8 +81,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="which">
-          <summary><span class="num">2</span>Which holes bend, and how far?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="which">
+          <summary><span class="qn">2</span>Which holes bend, and how far?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>On a standard 10-hole (Richter-tuned) harmonica, the pattern is the same in every key:</p>
             <ul>
@@ -90,8 +97,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="first">
-          <summary><span class="num">3</span>How do I get my very first bend?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="first">
+          <summary><span class="qn">3</span>How do I get my very first bend?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Most people get their first bend on the <strong>4 draw</strong> or the <strong>1 draw</strong>.</p>
             <ul>
@@ -107,8 +114,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="cant">
-          <summary><span class="num">4</span>I've tried for ages — why can't I bend at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="cant">
+          <summary><span class="qn">4</span>I've tried for ages — why can't I bend at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Usually it's one of these:</p>
             <ul>
@@ -125,8 +132,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="two">
-          <summary><span class="num">5</span>Why does my 2 draw sound airy, flat, or not sound at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="two">
+          <summary><span class="qn">5</span>Why does my 2 draw sound airy, flat, or not sound at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>This is the most common problem in a player's first years, and the harp usually isn't broken. The normal resting shape of most people's mouths happens to sit close to the pitch of the 2 draw reed, so it half-bends before you've tried to bend anything. The note comes out weak, flat or breathy.</p>
             <ul>
@@ -143,8 +150,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="three">
-          <summary><span class="num">6</span>How do I control the three bends on the 3 draw?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="three">
+          <summary><span class="qn">6</span>How do I control the three bends on the 3 draw?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>The 3 draw has three bends packed into one hole, so the trick is <strong>control, not depth</strong>. Many players can drop straight to the bottom but can't stop halfway.</p>
             <ul>
@@ -161,8 +168,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="know">
-          <summary><span class="num">7</span>How do I know I'm really bending — and in tune?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="know">
+          <summary><span class="qn">7</span>How do I know I'm really bending — and in tune?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>A real bend makes the note's pitch clearly slide. If you're not sure whether it moved, it probably didn't yet. Changes in tone or volume alone don't count.</p>
             <p>Being in tune is the next step. A bend that only gets three-quarters of the way down sounds sour against a band. Practice two skills:</p>
@@ -178,8 +185,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="keys">
-          <summary><span class="num">8</span>Does the key of my harmonica change how it bends?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="keys">
+          <summary><span class="qn">8</span>Does the key of my harmonica change how it bends?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>The holes and bend sizes are the same on every key, but <strong>how it feels changes a lot</strong>:</p>
             <ul>
@@ -197,8 +204,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="harp">
-          <summary><span class="num">9</span>Is it me, or is my harmonica the problem?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="harp">
+          <summary><span class="qn">9</span>Is it me, or is my harmonica the problem?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Most of the time it's technique, but the harp can make things much harder:</p>
             <ul>
@@ -214,8 +221,8 @@
           </div>
         </details>
 
-        <details class="qa glass" id="over">
-          <summary><span class="num">10</span>What are blow bends, overblows and overdraws?<svg class="chev"><use href="#i-chev"/></svg></summary>
+        <details class="qa card" id="over">
+          <summary><span class="qn">10</span>What are blow bends, overblows and overdraws?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <ul>
               <li><strong>Blow bends</strong> (holes 8–10) work like draw bends, but while blowing. They need a narrower, more focused airstream. Learn them after your draw bends feel solid.</li>
@@ -229,15 +236,15 @@
           </div>
         </details>
 
-        <section class="cta glass">
+        <section class="cta card">
           <div>
-            <h3>Ready to try it?</h3>
+            <h3 class="serif">Ready to try it?</h3>
             <p>Pick your key, choose a bend, and see your pitch move in real time.</p>
           </div>
           <a class="btn btn-primary" href="index.html">Open the Bend Trainer</a>
         </section>
 
-        <p class="footer" style="margin-top:8px">Answers are written by Harmonica Studio and summarize advice from the teachers and forums linked above. All videos and articles belong to their creators.</p>
+        <p class="faq-note">Answers are written by Harmonica Studio and summarize advice from the teachers and forums linked above. All videos and articles belong to their creators.</p>
       </div>
     </div>
   </div>

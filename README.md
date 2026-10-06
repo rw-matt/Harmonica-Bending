@@ -2,10 +2,16 @@
 
 A static site for learning to bend notes on the 10-hole diatonic harmonica.
 
-- **`index.html`**: the Bend Trainer. Pick a key (all 12, plus Low D/E/F/G and High G), choose a bend, and play. The mic shows your pitch live against the target, scores each attempt, plays reference tones and the slide, and lets you record a take to compare.
+- **`index.html`**: the Bend Trainer, laid out as three steps. Pick a key (all 12, plus Low D/E/F/G and High G), choose a bend, and play. The mic shows your pitch on a bend-depth gauge and a live trace, scores each attempt, plays reference tones and the slide, and lets you record a take to compare.
 - **`faq.html`**: the 10 most common bending questions, answered in our own words, with links to video lessons and sources.
 
-No framework and no build step. Plain HTML, CSS and JavaScript modules.
+Light and dark themes follow the device setting until the user picks one with the sun/moon toggle.
+
+No framework, no build step and no backend. Plain HTML, CSS and JavaScript modules.
+
+## What gets saved
+
+Only settings are kept in the browser's `localStorage`: theme, harmonica key, selected bend and the advanced toggle. Practice results ("Today's practice") and recorded takes live in memory and are gone when the page closes, and the page says so.
 
 ## Project layout
 
@@ -13,10 +19,11 @@ No framework and no build step. Plain HTML, CSS and JavaScript modules.
 index.html        Trainer page
 faq.html          FAQ page
 favicon.svg
-css/styles.css    Glass design system + both pages
+css/styles.css    Light/dark tokens + both pages
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
-js/app.js         Trainer UI, mic loop, scoring, trace, tones, recording
+js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
+js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 ```
 
 ## Run locally
