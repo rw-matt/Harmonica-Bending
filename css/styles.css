@@ -1,11 +1,13 @@
 /* ───────── Harmonica Bending · Inkwell / Lunar Eclipse / Creme Brulee / Au Lait ───────── */
 
-/* ── Fonts (self-hosted variable fonts, SIL Open Font License; see fonts/OFL-*.txt) ── */
-@font-face { font-family: Fraunces; font-style: normal; font-weight: 500 600; font-display: swap;
-  src: url(../fonts/fraunces-latin.woff2) format('woff2');
+/* ── Fonts (self-hosted variable fonts, SIL Open Font License; see fonts/OFL-*.txt) ──
+   League Spartan by The League of Moveable Type (Micah Rich, Tyler Finck): headings and big numbers.
+   Inter by Rasmus Andersson: everything else. */
+@font-face { font-family: "League Spartan"; font-style: normal; font-weight: 500 800; font-display: swap;
+  src: url(../fonts/league-spartan-latin.woff2) format('woff2');
   unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
-@font-face { font-family: Fraunces; font-style: normal; font-weight: 500 600; font-display: swap;
-  src: url(../fonts/fraunces-latin-ext.woff2) format('woff2');
+@font-face { font-family: "League Spartan"; font-style: normal; font-weight: 500 800; font-display: swap;
+  src: url(../fonts/league-spartan-latin-ext.woff2) format('woff2');
   unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
 @font-face { font-family: Inter; font-style: normal; font-weight: 400 700; font-display: swap;
   src: url(../fonts/inter-latin.woff2) format('woff2');
@@ -46,7 +48,7 @@
 :root {
   --radius: 24px; --radius-sm: 14px;
   --font: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --serif: Fraunces, Georgia, "Times New Roman", serif;
+  --display: "League Spartan", Inter, -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 * { box-sizing: border-box; }
@@ -64,12 +66,12 @@ a { color: var(--accent-text); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 10px; }
 h1, h2, h3, h4 { margin: 0; }
 
-.serif { font-family: var(--serif); font-weight: 600; letter-spacing: -0.02em; }
+.display { font-family: var(--display); font-weight: 700; letter-spacing: -0.025em; }
 .muted { color: var(--ink-3); }
 .small { font-size: 12px; }
 .lbl { font-size: 12px; font-weight: 600; color: var(--ink-2); }
 .between { display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-.serif .acc { font-family: var(--font); font-weight: 500; font-size: 0.6em; vertical-align: 0.45em; margin-left: 0.02em; }
+.display .acc { font-family: var(--font); font-weight: 500; font-size: 0.6em; vertical-align: 0.45em; margin-left: 0.02em; }
 
 /* ── Background ── */
 .backdrop { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: radial-gradient(120% 80% at 80% 0%, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%); transition: background 300ms ease; }
@@ -170,6 +172,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .note-big { font-size: clamp(64px, 10vw, 96px); line-height: 0.95; min-height: 0.95em; font-variant-numeric: tabular-nums; transition: color 200ms; }
 .note-big sub { font-family: var(--font); font-size: 0.3em; font-weight: 500; vertical-align: baseline; color: var(--ink-3); margin-left: 4px; letter-spacing: 0; }
 .note-big.is-on { color: var(--good); }
+.note-big .idle { font-weight: 300; color: var(--ink-3); opacity: 0.45; }
 .status-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; min-height: 30px; }
 .status { display: inline-flex; align-items: center; gap: 7px; padding: 4px 12px; border-radius: 999px; background: var(--card-solid); border: 1px solid var(--line); font-size: 13px; font-weight: 600; color: var(--ink-3); }
 .dot { width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
@@ -195,7 +198,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .gauge.is-over .g-fill, .gauge.is-over .g-knob { stroke: var(--bad); }
 .gauge.is-idle .g-fill, .gauge.is-idle .g-knob { opacity: 0; }
 .gauge-val { position: absolute; left: 0; right: 0; top: 46%; display: grid; justify-items: center; line-height: 1.1; font-size: 12px; }
-.gauge-val .serif { font-size: 30px; }
+.gauge-val .display { font-size: 30px; }
 .gauge-ends { display: flex; justify-content: space-between; width: 100%; max-width: 260px; font-size: 12px; margin-top: 4px; }
 
 .trace-wrap { position: relative; border-radius: 16px; overflow: hidden; background: var(--track); }
@@ -229,7 +232,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .result .stats { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 6px; }
 .chip { font-size: 12px; font-weight: 600; padding: 3px 9px; border-radius: 999px; background: var(--track); color: var(--ink-2); }
 .session-score { display: flex; align-items: baseline; gap: 8px; }
-.session-score .serif { font-size: 30px; }
+.session-score .display { font-size: 30px; }
 .pips { display: flex; gap: 4px; flex-wrap: wrap; min-height: 10px; }
 .pips i { width: 10px; height: 10px; border-radius: 3px; background: var(--track); }
 .pips i.good { background: var(--good); } .pips i.close { background: var(--accent); } .pips i.miss { background: var(--bad); }
@@ -263,6 +266,8 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .consent p { margin: 0; font-size: 14px; color: var(--ink-2); }
 .consent-actions { display: flex; gap: 8px; justify-content: flex-end; flex-wrap: wrap; }
 .footer-links { font-size: 12px; }
+.credits { font-size: 12px; color: var(--ink-3); }
+.credits a { color: var(--ink-2); text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
 .footer-links .linkish, .footer-links a { font-size: 12px; font-weight: 500; color: var(--ink-3); }
 .footer-links a { text-decoration: underline; text-underline-offset: 3px; text-decoration-color: var(--line-strong); }
 .footer-links a:hover, .footer-links .linkish:hover { color: var(--ink); }
@@ -290,7 +295,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .toc a:hover { color: var(--accent-text); }
 .faq-list { display: grid; gap: 12px; }
 .qa { padding: 0; overflow: hidden; }
-.qa summary { list-style: none; cursor: pointer; padding: 18px 20px; display: flex; gap: 14px; align-items: center; font-family: var(--serif); font-weight: 600; font-size: 19px; letter-spacing: -0.01em; }
+.qa summary { list-style: none; cursor: pointer; padding: 18px 20px; display: flex; gap: 14px; align-items: center; font-family: var(--display); font-weight: 700; font-size: 19px; letter-spacing: -0.015em; }
 .qa summary::-webkit-details-marker { display: none; }
 .qa .qn { flex: none; width: 30px; height: 30px; border-radius: 10px; display: grid; place-items: center; font-family: var(--font); font-size: 13px; font-weight: 700; background: var(--accent-soft); color: var(--accent-text); }
 .qa .chev { margin-left: auto; flex: none; width: 18px; height: 18px; color: var(--ink-3); transition: transform 250ms; }
@@ -334,7 +339,7 @@ body[data-mood="on"] .glow.good { opacity: 1; }
   .inst-top { grid-template-columns: minmax(0, 1fr); gap: 14px; }
   .gauge-wrap { order: -1; }
   .gauge, .gauge-ends { max-width: 210px; }
-  .gauge-val .serif { font-size: 26px; }
+  .gauge-val .display { font-size: 26px; }
   .note-big { font-size: 64px; }
   .actions .btn { flex: 1 1 calc(50% - 4px); justify-content: center; padding: 0 10px; white-space: nowrap; font-size: 13px; }
   .actions .btn-primary { flex-basis: 100%; }

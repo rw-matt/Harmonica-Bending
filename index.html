@@ -107,7 +107,7 @@
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
   <script src="js/theme.js"></script>
   <link rel="preload" href="fonts/inter-latin.woff2" as="font" type="font/woff2" crossorigin>
-  <link rel="preload" href="fonts/fraunces-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/league-spartan-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -151,7 +151,7 @@
     <!-- Step 1: key picker -->
     <section class="sheet card" id="keySheet" aria-label="Pick your harmonica key" hidden>
       <div class="sheet-head">
-        <div><span class="lbl">Step 1</span><h2 class="serif">What key is your harmonica?</h2><p class="muted">It's stamped on the top cover, usually near the brand name.</p></div>
+        <div><span class="lbl">Step 1</span><h2 class="display">What key is your harmonica?</h2><p class="muted">It's stamped on the top cover, usually near the brand name.</p></div>
         <button type="button" class="pill" data-close>Done</button>
       </div>
       <div class="keys" id="keys" role="group" aria-label="Standard keys"></div>
@@ -163,14 +163,14 @@
     <!-- Step 2: bend picker -->
     <section class="sheet card" id="bendSheet" aria-label="Pick a bend" hidden>
       <div class="sheet-head">
-        <div><span class="lbl">Step 2</span><h2 class="serif">Which bend do you want to practice?</h2><p class="muted">New to bending? Start with the 4 draw half step. You can also tap a bend on the hole map below.</p></div>
+        <div><span class="lbl">Step 2</span><h2 class="display">Which bend do you want to practice?</h2><p class="muted">New to bending? Start with the 4 draw half step. You can also tap a bend on the hole map below.</p></div>
         <button type="button" class="pill" data-close>Done</button>
       </div>
       <div class="bend-groups" id="bendGroups"></div>
     </section>
 
     <section class="intro">
-      <h1 class="serif" id="headline">Bend the 4 draw down a half step.</h1>
+      <h1 class="display" id="headline">Bend the 4 draw down a half step.</h1>
       <p class="muted" id="subline">Play D, then pull it down toward D♭ until the gauge settles in the green.</p>
     </section>
 
@@ -179,7 +179,7 @@
       <div class="inst-top">
         <div class="inst-left">
           <span class="lbl">You're playing</span>
-          <div class="note-big serif" id="noteBig" aria-live="off">—</div>
+          <div class="note-big display" id="noteBig" aria-live="off"><span class="idle">—</span></div>
           <div class="status-row">
             <span class="status" id="micStatus" role="status"><span class="dot"></span><span>Mic off</span></span>
             <span class="where" id="where">Press Start listening, then play.</span>
@@ -205,7 +205,7 @@
             <path id="gFill" class="g-fill"/>
             <circle id="gKnob" class="g-knob" r="9"/>
           </svg>
-          <div class="gauge-val"><span class="serif" id="gaugePct">0%</span><span class="muted">bend depth</span></div>
+          <div class="gauge-val"><span class="display" id="gaugePct">0%</span><span class="muted">bend depth</span></div>
           <div class="gauge-ends muted"><span id="gNat">D · natural</span><span id="gTgt">D♭ · target</span></div>
         </div>
       </div>
@@ -227,7 +227,7 @@
     <div class="trio">
       <section class="card result" id="result" aria-live="polite">
         <span class="lbl">Last result</span>
-        <h3 class="serif">Ready when you are</h3>
+        <h3 class="display">Ready when you are</h3>
         <p class="muted">Play the bend and let go. Your result lands here.</p>
       </section>
 
@@ -236,7 +236,7 @@
           <span class="lbl">Today's practice</span>
           <button type="button" class="icon-btn sm" id="resetSession" title="Clear today's practice" aria-label="Clear today's practice"><svg><use href="#i-reset"/></svg></button>
         </div>
-        <div class="session-score"><span class="serif" id="sessionScore">0 / 0</span><span class="muted">nailed</span></div>
+        <div class="session-score"><span class="display" id="sessionScore">0 / 0</span><span class="muted">nailed</span></div>
         <div class="pips" id="pips"></div>
         <p class="note">Not saved. Resets when you close this page.</p>
       </section>
@@ -249,7 +249,7 @@
     </div>
 
     <section class="card about" aria-labelledby="aboutTitle">
-      <h2 class="serif" id="aboutTitle">How the Harmonica Bending Trainer works</h2>
+      <h2 class="display" id="aboutTitle">How the Harmonica Bending Trainer works</h2>
       <p class="muted">A free, online trainer for bending notes on the 10-hole diatonic harmonica. It listens through your microphone, shows how far your note has bent, and tells you what to fix after every attempt. There's nothing to install and no account, and your audio never leaves your device.</p>
       <ol class="about-steps">
         <li><b>Pick your key.</b> All 12 keys, plus Low D, Low E, Low F, Low G and High G.</li>
@@ -261,6 +261,7 @@
     <footer class="footer">
       <a class="kofi" href="https://ko-fi.com/harpbends" target="_blank" rel="noopener"><svg><use href="#i-cup"/></svg>Enjoying it? Buy me a coffee on Ko-fi</a>
       <p class="footer-links"><button type="button" class="linkish" data-cookie-settings>Cookie settings</button> · <a href="privacy.html">Privacy</a></p>
+      <p class="credits">Headings set in <a href="https://github.com/theleagueof/league-spartan" target="_blank" rel="noopener">League Spartan</a> by The League of Moveable Type (Micah Rich &amp; Tyler Finck), body in <a href="https://rsms.me/inter/" target="_blank" rel="noopener">Inter</a> by Rasmus Andersson.</p>
       <p>Works best in Chrome, Edge or Safari, with headphones off and the harmonica a few inches from the mic.</p>
     </footer>
   </div>

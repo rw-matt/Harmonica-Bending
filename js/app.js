@@ -17,7 +17,7 @@ const HOLD_GOAL = 0.35;       // seconds on target to count as "nailed"
 const TRACE_MS = 6000;
 const GAUGE_SPAN = 1.3;       // the gauge runs from the natural note to 130% of the bend
 
-/** Wrap ♭/♯ so the serif display font doesn't fall back to an odd glyph. */
+/** Wrap ♭/♯ so the display font doesn't fall back to an odd glyph. */
 const acc = (s) => s.replace(/([♭♯])/g, '<span class="acc">$1</span>');
 const plain = (midi) => noteName(midi, state.key.root, false);
 
@@ -210,7 +210,7 @@ function updateLive(midi) {
   const root = state.key.root;
   clearHits();
   if (midi == null) {
-    $('noteBig').innerHTML = '—'; $('noteBig').classList.remove('is-on');
+    $('noteBig').innerHTML = '<span class="idle">—</span>'; $('noteBig').classList.remove('is-on');
     if (state.listening) { setStatus('live', 'Listening'); $('where').textContent = 'Play a note.'; }
     return;
   }
@@ -299,7 +299,7 @@ function finishAttempt(a) {
 
   const r = $('result');
   r.className = `card result ${cls}`;
-  r.innerHTML = `<span class="lbl">Last result</span><h3 class="serif">${title}</h3><p class="muted">${msg}</p>
+  r.innerHTML = `<span class="lbl">Last result</span><h3 class="display">${title}</h3><p class="muted">${msg}</p>
     <div class="stats">
       <span class="chip">${up ? 'Highest' : 'Deepest'}: ${deepName}</span>
       <span class="chip">Closest: ${a.closest === Infinity ? '—' : `${Math.round(a.closest)}¢ off`}</span>
