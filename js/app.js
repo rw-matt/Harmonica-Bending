@@ -73,21 +73,6 @@ function setKey(id) {
 const depthLabel = (t) => (t.steps < 0 ? `↓${['', '½', '1', '1½'][-t.steps]}` : '↑');
 const shortName = (t) => `${t.hole} ${t.kind === 'draw-bend' || t.kind === 'overdraw' ? 'draw' : 'blow'} ${depthLabel(t)}`;
 
-function renderBendGroups() {
-  const groups = [
-    ['Draw bends · holes 1–6', state.targets.filter((t) => t.kind === 'draw-bend')],
-    ['Blow bends · holes 8–10', state.targets.filter((t) => t.kind === 'blow-bend')],
-  ];
-  if (state.advanced) groups.push(['Overblows & overdraws', state.targets.filter((t) => t.advanced)]);
-  $('bendGroups').innerHTML = groups.map(([name, list]) => `
-    <div class="bend-group" role="group" aria-label="${name}">
-      <span class="lbl">${name}</span>
-      ${list.map((t) => `<button type="button" class="pick" data-target="${t.id}" aria-pressed="${t.id === state.targetId}"
-          title="${describeTarget(t, state.key.root).title}">${t.hole} → ${plain(t.targetMidi)}<small>${depthLabel(t)}</small></button>`).join('')}
-    </div>`).join('') + `
-    <button type="button" class="linkish" id="advToggle">${state.advanced ? 'Hide' : 'Show'} overblows &amp; overdraws (advanced)</button>`;
-}
-
 /* ───────── targets + hole map ───────── */
 function rebuild() {
   const root = state.key.root;
@@ -98,15 +83,17 @@ function rebuild() {
   state.target = t;
   state.targetId = t.id;
   if (audio.analyser) makeDetector();
-  renderKeys(); renderHoles(); renderBendGroups(); renderTarget();
+  renderKeys(); renderHoles(); renderTarget();
   state.trace = []; drawTrace();
 }
 
-function renderHoles() {
+/** The hole map. `live` adds the ids the mic loop uses to light up the note being played. */
+function holeMapHTML(live) {
   const root = state.key.root;
   const visible = state.targets.filter((t) => !t.advanced || state.advanced);
+  const id = (v) => (live ? ` id="${v}"` : '');
   const chip = (t) => `<button type="button" class="bend${t.advanced ? ' adv' : ''}${t.id === state.targetId ? ' is-selected' : ''}"
-      id="c-${t.id}" data-target="${t.id}" title="${describeTarget(t, root).title}">${plain(t.targetMidi)}</button>`;
+      ${id(`c-${t.id}`)} data-target="${t.id}" title="${describeTarget(t, root).title}">${plain(t.targetMidi)}</button>`;
   let html = '';
   for (let h = 1; h <= 10; h++) {
     // Above the blow note: overblow furthest out, then blow bends deepest → shallowest
@@ -115,15 +102,21 @@ function renderHoles() {
     // Below the draw note: draw bends shallow → deep, then overdraw
     const downs = visible.filter((t) => t.hole === h && (t.kind === 'draw-bend' || t.kind === 'overdraw'))
       .sort((a, b) => (a.kind === 'overdraw' ? 1 : b.kind === 'overdraw' ? -1 : b.steps - a.steps));
-    html += `<div class="hole${h === state.target.hole ? ' is-target' : ''}" id="hole-${h}">
+    html += `<div class="hole${h === state.target.hole ? ' is-target' : ''}" data-hole="${h}">
       <div class="bends up">${ups.map(chip).join('')}</div>
-      <div class="reed" id="n-${h}-blow" title="Hole ${h} blow">${plain(root + BLOW[h - 1])}</div>
-      <div class="num" id="h-${h}">${h}</div>
-      <div class="reed" id="n-${h}-draw" title="Hole ${h} draw">${plain(root + DRAW[h - 1])}</div>
+      <div class="reed"${id(`n-${h}-blow`)} title="Hole ${h} blow">${plain(root + BLOW[h - 1])}</div>
+      <div class="num"${id(`h-${h}`)}>${h}</div>
+      <div class="reed"${id(`n-${h}-draw`)} title="Hole ${h} draw">${plain(root + DRAW[h - 1])}</div>
       <div class="bends">${downs.map(chip).join('')}</div>
     </div>`;
   }
-  $('holes').innerHTML = html;
+  return html;
+}
+
+function renderHoles() {
+  $('holes').innerHTML = holeMapHTML(true);
+  $('sheetHoles').innerHTML = holeMapHTML(false);
+  $('advToggle').textContent = `${state.advanced ? 'Hide' : 'Show'} overblows & overdraws (advanced)`;
 }
 
 function selectTarget(id) {
@@ -132,8 +125,7 @@ function selectTarget(id) {
   state.target = t; state.targetId = id; store.set('target', id);
   state.attempt = null; state.trace = [];
   document.querySelectorAll('.bend').forEach((c) => c.classList.toggle('is-selected', c.dataset.target === id));
-  document.querySelectorAll('.pick').forEach((c) => c.setAttribute('aria-pressed', String(c.dataset.target === id)));
-  document.querySelectorAll('.hole').forEach((el) => el.classList.toggle('is-target', el.id === `hole-${t.hole}`));
+  document.querySelectorAll('.hole').forEach((el) => el.classList.toggle('is-target', el.dataset.hole === String(t.hole)));
   renderTarget(); drawTrace();
 }
 
@@ -559,7 +551,7 @@ document.addEventListener('click', (e) => {
   const k = e.target.closest('[data-key]');
   if (k) { setKey(k.dataset.key); return toggleSheet('stepKey', false); }
   const tg = e.target.closest('[data-target]');
-  if (tg) { selectTarget(tg.dataset.target); if (tg.classList.contains('pick')) toggleSheet('stepBend', false); return; }
+  if (tg) { selectTarget(tg.dataset.target); if (tg.closest('#bendSheet')) toggleSheet('stepBend', false); return; }
   if (e.target.closest('[data-close]')) return toggleSheet(null);
   if (e.target.closest('#advToggle')) {
     state.advanced = !state.advanced; store.set('adv', state.advanced);
