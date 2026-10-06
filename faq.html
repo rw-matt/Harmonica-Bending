@@ -261,7 +261,7 @@
 
       <div class="faq-list">
 
-        <details class="qa card" id="what" open>
+        <details class="qa card" id="what" name="faq" open>
           <summary><span class="qn">1</span>What is bending, and why does it work?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Bending is lowering a note's pitch by changing the shape of your mouth and throat while you play. It gives you the bluesy "wail", and it also gives you notes the harmonica doesn't have built in.</p>
@@ -274,7 +274,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="which">
+        <details class="qa card" id="which" name="faq">
           <summary><span class="qn">2</span>Which holes bend, and how far?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>On a standard 10-hole (Richter-tuned) harmonica, the pattern is the same in every key:</p>
@@ -290,7 +290,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="first">
+        <details class="qa card" id="first" name="faq">
           <summary><span class="qn">3</span>How do I get my very first bend?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Most people get their first bend on the <strong>4 draw</strong> or the <strong>1 draw</strong>.</p>
@@ -307,7 +307,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="cant">
+        <details class="qa card" id="cant" name="faq">
           <summary><span class="qn">4</span>I've tried for ages — why can't I bend at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Usually it's one of these:</p>
@@ -325,7 +325,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="two">
+        <details class="qa card" id="two" name="faq">
           <summary><span class="qn">5</span>Why does my 2 draw sound airy, flat, or not sound at all?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>This is the most common problem in a player's first years, and the harp usually isn't broken. The normal resting shape of most people's mouths happens to sit close to the pitch of the 2 draw reed, so it half-bends before you've tried to bend anything. The note comes out weak, flat or breathy.</p>
@@ -343,7 +343,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="three">
+        <details class="qa card" id="three" name="faq">
           <summary><span class="qn">6</span>How do I control the three bends on the 3 draw?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>The 3 draw has three bends packed into one hole, so the trick is <strong>control, not depth</strong>. Many players can drop straight to the bottom but can't stop halfway.</p>
@@ -361,7 +361,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="know">
+        <details class="qa card" id="know" name="faq">
           <summary><span class="qn">7</span>How do I know I'm really bending — and in tune?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>A real bend makes the note's pitch clearly slide. If you're not sure whether it moved, it probably didn't yet. Changes in tone or volume alone don't count.</p>
@@ -378,7 +378,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="keys">
+        <details class="qa card" id="keys" name="faq">
           <summary><span class="qn">8</span>Does the key of my harmonica change how it bends?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>The holes and bend sizes are the same on every key, but <strong>how it feels changes a lot</strong>:</p>
@@ -397,7 +397,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="harp">
+        <details class="qa card" id="harp" name="faq">
           <summary><span class="qn">9</span>Is it me, or is my harmonica the problem?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <p>Most of the time it's technique, but the harp can make things much harder:</p>
@@ -414,7 +414,7 @@
           </div>
         </details>
 
-        <details class="qa card" id="over">
+        <details class="qa card" id="over" name="faq">
           <summary><span class="qn">10</span>What are blow bends, overblows and overdraws?<svg class="chev"><use href="#i-chev"/></svg></summary>
           <div class="answer">
             <ul>
@@ -455,6 +455,12 @@
     }
     window.addEventListener('hashchange', openFromHash);
     openFromHash();
+
+    // Only one answer open at a time. name="faq" does this natively in current browsers;
+    // this covers older ones.
+    document.querySelectorAll('details.qa').forEach((d) => d.addEventListener('toggle', () => {
+      if (d.open) document.querySelectorAll('details.qa[open]').forEach((o) => { if (o !== d) o.open = false; });
+    }));
   </script>
 </body>
 </html>
