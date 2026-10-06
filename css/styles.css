@@ -232,7 +232,11 @@ body[data-mood="on"] .glow.good { opacity: 1; }
 .about-steps b { color: var(--ink); font-weight: 600; }
 @media (max-width: 760px) { .about-steps { grid-template-columns: minmax(0, 1fr); } }
 
-.footer { text-align: center; color: var(--ink-3); font-size: 13px; margin-top: 8px; }
+.footer { text-align: center; color: var(--ink-3); font-size: 13px; margin-top: 8px; display: grid; justify-items: center; gap: 10px; }
+.footer p { margin: 0; }
+.kofi { display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-text); font-weight: 600; font-size: 14px; text-decoration: none; transition: background-color 180ms, color 180ms; }
+.kofi:hover { background: var(--accent); color: var(--on-accent); }
+.kofi svg { width: 16px; height: 16px; }
 .footer a { color: var(--ink-2); }
 
 .toast { position: fixed; left: 50%; bottom: 24px; z-index: 50; max-width: min(520px, calc(100% - 32px)); padding: 14px 18px; font-size: 14px; border-radius: 16px; background: var(--card-solid);

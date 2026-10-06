@@ -11,7 +11,9 @@ No framework, no build step and no backend. Plain HTML, CSS and JavaScript modul
 
 ## What gets saved
 
-Only settings are kept in the browser's `localStorage`: theme, harmonica key, selected bend and the advanced toggle. Practice results ("Today's practice") and recorded takes live in memory and are gone when the page closes, and the page says so.
+Only settings are kept in the browser's `localStorage`: theme, harmonica key, selected bend and the advanced toggle. Practice results ("Today's practice") and recorded takes live in memory and are gone when the page closes, and the page says so. Microphone audio is processed in the browser and never uploaded.
+
+Both pages load Google Analytics 4 (`G-1V1MS5JSF1`). GA4's enhanced measurement records outbound clicks, so Ko-fi button clicks show up without extra code.
 
 ## Project layout
 
