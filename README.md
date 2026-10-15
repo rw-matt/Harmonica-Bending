@@ -19,6 +19,7 @@ Both pages load Google Analytics 4 (`G-1V1MS5JSF1`) with Consent Mode v2. In the
 
 ```
 index.html        Trainer page
+guitar-bending.html  Guitar Bending Trainer (experiment): same engine for guitar string bends
 how-to.html       How To page: three steps and a call to action back to the trainer
 faq.html          FAQ page
 privacy.html      Privacy policy (update it if analytics, hosting or fonts change)
@@ -37,8 +38,16 @@ js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
 js/consent.js     Cookie banner for Google Analytics
 js/pwa.js         Registers the service worker; drives the How To page's install box
+js/guitar.js      Guitar model: tunings, strings, bend sizes, tips
+js/guitar-app.js  Guitar trainer UI (self-contained, so it can move to its own site)
 js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 ```
+
+## Guitar Bending Trainer (experiment)
+
+`/guitar-bending` reuses the pitch detector (`js/pitch.js`), styles and theme, with its own model and UI in `js/guitar.js` and `js/guitar-app.js`. To move it to its own site, copy those two files plus `guitar-bending.html`, `js/pitch.js`, `js/theme.js`, `css/styles.css` and `fonts/`, then update the brand, canonical URLs and schema.
+
+Both trainers send a GA4 event, `bend_attempt`, with `instrument` (`harmonica` or `guitar`), `result` (`good`, `close`, `miss`) and `bend`, so you can compare usage in Analytics. Register `instrument` and `result` as custom dimensions in GA4 to break reports down by them.
 
 ## Install as an app (PWA)
 

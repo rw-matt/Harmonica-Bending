@@ -299,6 +299,7 @@ function finishAttempt(a) {
     </div>`;
   state.results.push(cls);
   renderSession();
+  if (typeof gtag === 'function') gtag('event', 'bend_attempt', { instrument: 'harmonica', result: cls, bend: `${state.key.id}-${t.id}` });
 }
 
 function renderSession() {

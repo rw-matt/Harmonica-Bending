@@ -290,6 +290,22 @@ body[data-mood="on"] .instrument { background: var(--inst-glow-on), var(--card);
 .legal code { font-size: 13px; padding: 1px 6px; border-radius: 6px; background: var(--track); color: var(--ink); }
 .legal .linkish { font-size: inherit; font-weight: 600; vertical-align: baseline; }
 
+/* ── Guitar page ── */
+.amount-row { display: grid; gap: 8px; }
+.fretboard { display: grid; grid-template-columns: 26px repeat(17, minmax(34px, 1fr)); gap: 4px; min-width: 680px; align-items: center; }
+.fb-num { text-align: center; font-size: 11px; font-weight: 600; color: var(--ink-3); padding-bottom: 2px; }
+.fb-num.marked { color: var(--accent-text); }
+.fb-num.marked::after { content: ""; display: block; width: 5px; height: 5px; margin: 3px auto 0; border-radius: 50%; background: currentColor; }
+.fb-string { font-size: 13px; font-weight: 700; color: var(--ink-2); text-align: center; }
+.fb-cell { height: 32px; border: 1px solid var(--line); border-radius: 8px; background: var(--card-solid); color: var(--ink-3); font-size: 11px; font-weight: 600; cursor: pointer;
+  transition: background-color 150ms, border-color 150ms, color 150ms; }
+.fb-cell:hover { border-color: var(--line-strong); color: var(--ink); }
+.fb-cell.is-selected { background: var(--accent-grad); color: var(--on-accent); border-color: transparent; box-shadow: 0 6px 16px -8px var(--accent); }
+.fb-cell.is-hit { background: var(--good) !important; color: var(--on-accent) !important; }
+.guitar-basics { max-width: none; }
+.amounts-inline { gap: 6px; }
+.amounts-inline .key { height: 34px; min-width: 40px; padding: 0 12px; font-size: 13px; }
+
 /* ── How To page ── */
 .steps-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
 .step-card { display: grid; gap: 10px; align-content: start; padding: 24px; background: var(--inst-glow), var(--card); overflow: hidden; }
