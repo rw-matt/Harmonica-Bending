@@ -45,9 +45,11 @@ js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 
 ## Guitar Bending Trainer (experiment)
 
-`/guitar-bending` reuses the pitch detector (`js/pitch.js`), styles and theme, with its own model and UI in `js/guitar.js` and `js/guitar-app.js`. To move it to its own site, copy those two files plus `guitar-bending.html`, `js/pitch.js`, `js/theme.js`, `css/styles.css` and `fonts/`, then update the brand, canonical URLs and schema.
+`/guitar-bending` is laid out for guitarists: pick a key (minor or major) and get one-tap "classic bends" (minor/major pentatonic box positions), a realistic neck drawn like tab, the bend shown as tab (`7b9`), a big readout readable from a music stand, and Space to start/stop listening. Settings (gear menu) cover tuning, input device (audio interfaces/USB amps), accuracy (Easy ±30¢ / Normal ±20¢ / Strict ±10¢) and a left-handed neck.
 
-Both trainers send a GA4 event, `bend_attempt`, with `instrument` (`harmonica` or `guitar`), `result` (`good`, `close`, `miss`) and `bend`, so you can compare usage in Analytics. Register `instrument` and `result` as custom dimensions in GA4 to break reports down by them.
+It reuses the pitch detector (`js/pitch.js`), styles and theme, with its own model and UI in `js/guitar.js` and `js/guitar-app.js`. To move it to its own site, copy those two files plus `guitar-bending.html`, `js/pitch.js`, `js/theme.js`, `css/styles.css` and `fonts/`, then update the brand, canonical URLs and schema.
+
+Both trainers send a GA4 event, `bend_attempt`, with `instrument` (`harmonica` or `guitar`), `result` (`good`, `close`, `miss`), `bend` and, for guitar, `accuracy`, so you can compare usage in Analytics. Register `instrument` and `result` as custom dimensions in GA4 to break reports down by them.
 
 ## Install as an app (PWA)
 

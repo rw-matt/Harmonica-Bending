@@ -119,6 +119,7 @@
     <symbol id="i-book" viewBox="0 0 24 24"><path d="M5 4h10a4 4 0 0 1 4 4v12H9a4 4 0 0 1-4-4z M5 16a4 4 0 0 1 4-4h10" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
     <symbol id="i-reset" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.4-5.7"/><path d="M4 4v4h4"/></g></symbol>
     <symbol id="i-cup" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5z"/><path d="M17 10h1.5a2.5 2.5 0 0 1 0 5H17"/><path d="M8 3c0 1.5 1 1.5 1 3M12 3c0 1.5 1 1.5 1 3"/></g></symbol>
+    <symbol id="i-gear" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></g></symbol>
     <symbol id="i-chev" viewBox="0 0 24 24"><path d="m6 9 6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
     <symbol id="i-wave" viewBox="0 0 24 24"><path d="M3 12c2-6 4-6 6 0s4 6 6 0 4-6 6 0" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
     <symbol id="i-flag" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></g></symbol>
@@ -139,11 +140,14 @@
         <span class="brand-name">Harmonica Bending</span>
       </a>
       <nav class="steps" aria-label="Setup">
-        <button type="button" class="step" id="stepKey" aria-expanded="false" aria-controls="keySheet"><b>1</b><span><i>Tuning · </i><em id="stepKeyVal">Standard</em></span><svg class="chev"><use href="#i-chev"/></svg></button>
-        <button type="button" class="step" id="stepBend" aria-expanded="false" aria-controls="bendSheet"><b>2</b><span><i>Bend · </i><em id="stepBendVal">G7 · Full</em></span><svg class="chev"><use href="#i-chev"/></svg></button>
+        <button type="button" class="step" id="stepKey" aria-expanded="false" aria-controls="keySheet"><b>1</b><span><i>Key · </i><em id="stepKeyVal">A minor</em></span><svg class="chev"><use href="#i-chev"/></svg></button>
+        <button type="button" class="step" id="stepBend" aria-expanded="false" aria-controls="bendSheet"><b>2</b><span><i>Bend · </i><em id="stepBendVal">G string 7 · Full</em></span><svg class="chev"><use href="#i-chev"/></svg></button>
         <button type="button" class="step" id="stepPlay"><b>3</b><span id="stepPlayVal">Play</span></button>
       </nav>
       <div class="top-actions">
+        <button type="button" class="settings-btn" id="settingsBtn" aria-expanded="false" aria-controls="settingsSheet" title="Tuning, input, accuracy and left-handed">
+          <svg aria-hidden="true"><use href="#i-gear"/></svg><span id="settingsVal">Standard</span><svg class="chev" aria-hidden="true"><use href="#i-chev"/></svg>
+        </button>
         <div class="theme-toggle" role="group" aria-label="Color theme">
           <button type="button" data-theme-set="light" aria-label="Light mode" title="Light mode"><svg><use href="#i-sun"/></svg></button>
           <button type="button" data-theme-set="dark" aria-label="Dark mode" title="Dark mode"><svg><use href="#i-moon"/></svg></button>
@@ -151,81 +155,122 @@
       </div>
     </header>
 
-    <!-- Step 1: tuning -->
-    <section class="sheet card" id="keySheet" aria-label="Pick your tuning" hidden>
+    <!-- Step 1: key -->
+    <section class="sheet card" id="keySheet" aria-label="Pick your key" hidden>
       <div class="sheet-head">
-        <div><span class="lbl">Step 1</span><h2 class="display">How is your guitar tuned?</h2><p class="muted">Not sure? It's almost always Standard. Tune up first: bends only sound right on an in-tune guitar.</p></div>
+        <div><span class="lbl">Step 1</span><h2 class="display">What key are you playing in?</h2><p class="muted">Pick the key of the song or backing track. The classic bend buttons move to the right spots on the neck.</p></div>
         <button type="button" class="pill" data-close>Done</button>
       </div>
-      <div class="keys" id="tunings" role="group" aria-label="Tunings"></div>
-      <p class="feel" id="feel"></p>
+      <div class="keys" id="keys" role="group" aria-label="Key"></div>
+      <div class="seg-toggle" role="group" aria-label="Minor or major">
+        <button type="button" data-mode="minor">Minor (blues &amp; rock)</button>
+        <button type="button" data-mode="major">Major (country &amp; pop)</button>
+      </div>
     </section>
 
-    <!-- Step 2: bend picker -->
+    <!-- Step 2: bend -->
     <section class="sheet card" id="bendSheet" aria-label="Pick a bend" hidden>
       <div class="sheet-head">
-        <div><span class="lbl">Step 2</span><h2 class="display">Which bend do you want to practice?</h2><p class="muted">Choose how far to bend, then tap the string and fret. New to bending? Try a full bend on the G string, fret 7.</p></div>
+        <div><span class="lbl">Step 2</span><h2 class="display">Where do you want to bend?</h2><p class="muted">Choose the bend size, then tap a spot on the neck.</p></div>
         <button type="button" class="pill" data-close>Done</button>
       </div>
-      <div class="amount-row"><span class="lbl">Bend size (steps)</span><div class="keys" id="amounts" role="group" aria-label="Bend size"></div></div>
-      <div class="holes-scroll"><div class="fretboard" id="sheetBoard"></div></div>
-      <p class="map-key muted small">Laid out like tab: the thin high e string on top. Fret numbers across the top.</p>
+      <div class="sizes" role="group" aria-label="Bend size"></div>
+      <div class="neck-scroll"><svg class="neck" id="neckSheet" viewBox="0 0 1040 254" role="img" aria-label="Guitar neck: tap a string and fret"></svg></div>
     </section>
 
-    <section class="intro">
+    <!-- Settings -->
+    <section class="sheet card" id="settingsSheet" aria-label="Settings" hidden>
+      <div class="sheet-head">
+        <div><span class="lbl">Settings</span><h2 class="display">Set up for your guitar</h2></div>
+        <button type="button" class="pill" data-close>Done</button>
+      </div>
+      <div class="settings-grid">
+        <div class="setting">
+          <span class="lbl">Tuning</span>
+          <div class="keys" id="tunings" role="group" aria-label="Tuning"></div>
+          <p class="feel" id="tuningNote"></p>
+        </div>
+        <div class="setting">
+          <label class="lbl" for="inputSelect">Input</label>
+          <select id="inputSelect" class="select"></select>
+          <p class="feel" id="inputNote"></p>
+        </div>
+        <div class="setting">
+          <span class="lbl">Accuracy</span>
+          <div class="keys" id="tolerances" role="group" aria-label="Accuracy"></div>
+          <p class="feel" id="tolNote"></p>
+        </div>
+        <div class="setting">
+          <span class="lbl">Left-handed</span>
+          <button type="button" class="switch" id="leftyToggle" role="switch" aria-checked="false"><span></span>Flip the neck for left-handed guitars</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="g-hero">
       <h1 class="display" id="headline">Bend the G string at fret 7 up a whole step.</h1>
-      <p class="muted" id="subline">Pick D, then push the string until it sounds E and the gauge settles in the green.</p>
+      <p class="muted" id="subline">Pick D, then push the string until it sounds E.</p>
+      <p class="tab-chip"><span class="lbl">Tab</span><code id="tabLine">G|--7b9--|</code><span class="muted" id="tabLabel">full bend</span></p>
+      <div class="presets-row">
+        <span class="lbl" id="presetsLabel">Classic bends in A minor</span>
+        <div class="presets" id="presets"></div>
+      </div>
     </section>
 
-    <!-- Step 3: the instrument -->
-    <section class="card instrument" aria-label="Live pitch">
-      <div class="inst-top">
-        <div class="inst-left">
+    <!-- Step 3: the big readout -->
+    <section class="card stage" aria-label="Live pitch">
+      <div class="stage-top">
+        <div class="stage-left">
           <span class="lbl">You're playing</span>
-          <div class="note-big display" id="noteBig" aria-live="off"><span class="idle">—</span></div>
+          <div class="note-huge display" id="noteBig" aria-live="off"><span class="idle">—</span></div>
           <div class="status-row">
             <span class="status" id="micStatus" role="status"><span class="dot"></span><span>Mic off</span></span>
             <span class="where" id="where">Press Start listening, then play.</span>
           </div>
-          <div class="actions">
-            <button class="btn btn-primary" id="micBtn" type="button"><svg><use href="#i-mic"/></svg><span>Start listening</span></button>
-            <button class="btn" id="playNatural" type="button" title="Hear the fretted note"><svg><use href="#i-play"/></svg><span>Natural</span></button>
-            <button class="btn" id="playTarget" type="button" title="Hear the note you're aiming for"><svg><use href="#i-play"/></svg><span>Target</span></button>
-            <button class="btn" id="playSlide" type="button" title="Hear the note slide from natural to target"><svg><use href="#i-slide"/></svg><span>Hear the bend</span></button>
-            <button class="btn" id="recBtn" type="button" disabled title="Record yourself (turn on listening first)"><svg><use href="#i-rec"/></svg><span>Record</span></button>
-          </div>
-          <div class="take-row" id="takeRow" hidden>
-            <span class="muted">Your take:</span>
-            <button class="linkish" id="playTake" type="button">Play it</button>
-            <button class="linkish" id="compareTake" type="button">Target, then your take</button>
-          </div>
         </div>
-
-        <div class="gauge-wrap">
+        <div class="gauge-wrap big">
           <svg class="gauge" viewBox="0 0 240 140" aria-hidden="true">
             <path id="gTrack" class="g-track"/>
             <path id="gZone" class="g-zone"/>
             <path id="gFill" class="g-fill"/>
-            <circle id="gKnob" class="g-knob" r="9"/>
+            <circle id="gKnob" class="g-knob" r="10"/>
           </svg>
-          <div class="gauge-val"><span class="display" id="gaugePct">0%</span><span class="muted">bend depth</span></div>
-          <div class="gauge-ends muted"><span id="gNat">D · fretted</span><span id="gTgt">E · target</span></div>
+          <div class="gauge-val"><span class="display" id="gaugePct">0%</span><span class="muted" id="gaugeOf">of a full bend</span></div>
+          <div class="gauge-ends"><span id="gNat">D · fret 7</span><span id="gMid">½</span><b id="gTgt">E · Full</b></div>
         </div>
       </div>
-
       <div class="trace-wrap">
         <canvas id="trace" aria-label="Pitch trace: your pitch over time against the target band"></canvas>
-        <div class="trace-empty" id="traceEmpty">Your pitch draws here as you play. Slide into the green band.</div>
+        <div class="trace-empty" id="traceEmpty">Your pitch draws here as you play. Push into the green band.</div>
+      </div>
+      <div class="stage-actions">
+        <div class="actions">
+          <button class="btn btn-primary" id="micBtn" type="button"><svg><use href="#i-mic"/></svg><span>Start listening</span></button>
+          <button class="btn" id="playNatural" type="button" title="Hear the fretted note"><svg><use href="#i-play"/></svg><span>Fretted</span></button>
+          <button class="btn" id="playTarget" type="button" title="Hear the note you're aiming for"><svg><use href="#i-play"/></svg><span>Target</span></button>
+          <button class="btn" id="playSlide" type="button" title="Hear the bend"><svg><use href="#i-slide"/></svg><span>Hear the bend</span></button>
+          <button class="btn" id="recBtn" type="button" disabled title="Record yourself (turn on listening first)"><svg><use href="#i-rec"/></svg><span>Record</span></button>
+        </div>
+        <span class="kbd-hint">Hands on the guitar? Press <kbd>Space</kbd> to start or stop listening.</span>
+      </div>
+      <div class="take-row" id="takeRow" hidden>
+        <span class="muted">Your take:</span>
+        <button class="linkish" id="playTake" type="button">Play it</button>
+        <button class="linkish" id="compareTake" type="button">Target, then your take</button>
       </div>
     </section>
 
-    <section class="card holes-card" id="fretMap" aria-label="Fretboard">
+    <section class="card neck-card" aria-label="Guitar neck">
       <div class="between">
-        <span class="lbl">Pick a string and fret</span>
-        <div class="keys amounts-inline" id="amountsMain" role="group" aria-label="Bend size"></div>
+        <span class="lbl">Tap a spot on the neck</span>
+        <div class="sizes" role="group" aria-label="Bend size"></div>
       </div>
-      <div class="holes-scroll"><div class="fretboard" id="fretboard"></div></div>
-      <p class="map-key muted small">High e on top, like tab. The cell lights up green when your bend lands.</p>
+      <div class="neck-scroll"><svg class="neck" id="neckMain" viewBox="0 0 1040 254" role="img" aria-label="Guitar neck: tap a string and fret"></svg></div>
+      <div class="neck-legend">
+        <span><i class="lg-dot"></i>Where you fret and bend</span>
+        <span><i class="lg-ring"></i>The fret whose pitch you're aiming for</span>
+        <span>High e on top, like tab, so "toward the ceiling" points down here</span>
+      </div>
     </section>
 
     <div class="trio">
@@ -268,7 +313,7 @@
       <a class="kofi" href="https://ko-fi.com/harpbends" target="_blank" rel="noopener"><svg><use href="#i-cup"/></svg>Enjoying it? Buy me a coffee on Ko-fi</a>
       <p class="footer-links"><button type="button" class="linkish" data-cookie-settings>Cookie settings</button> · <a href="privacy.html">Privacy</a></p>
       <p class="credits">Set in <a href="https://github.com/theleagueof/league-spartan" target="_blank" rel="noopener">League Spartan</a> by The League of Moveable Type, designed by Micah Rich &amp; Tyler Finck.</p>
-      <p>Works best in Chrome, Edge or Safari. Play unplugged or through an amp, with headphones off and the guitar close to the mic.</p>
+      <p>Works best in Chrome, Edge or Safari with a clean or lightly driven tone. Heavy distortion makes pitch hard to read.</p>
     </footer>
   </div>
 

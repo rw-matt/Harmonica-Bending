@@ -84,3 +84,61 @@ export function tuningTip(tuning) {
     dropd: 'Standard tuning with the low E dropped to D. Bends on the top five strings work exactly like standard.',
   }[tuning.id];
 }
+
+/* ───────── Keys and classic bend presets ───────── */
+// Keys guitarists most often solo in. `pc` is the pitch class of the root.
+export const KEYS = [
+  { id: 'E', pc: 4 }, { id: 'A', pc: 9 }, { id: 'G', pc: 7 }, { id: 'D', pc: 2 }, { id: 'C', pc: 0 }, { id: 'B', pc: 11 },
+];
+
+/** Fret where the box-1 root sits on the low (6th-string-shaped) position, kept between 3 and 14. */
+function rootFret(tuning, pc) {
+  const refLow = openNote(tuning, 5) - 5;   // the A string minus a 4th: works for Drop D too
+  let r = ((pc - refLow) % 12 + 12) % 12;
+  if (r < 3) r += 12;
+  return r;
+}
+
+/**
+ * The famous bend spots in a key, all on the top three strings.
+ * Minor: the minor pentatonic box. Major: the same shape moved down 3 frets (major pentatonic).
+ */
+export function presets(tuning, keyId, mode) {
+  const key = KEYS.find((k) => k.id === keyId) || KEYS[1];
+  if (mode === 'major') {
+    let p = rootFret(tuning, key.pc) - 3;
+    if (p < 2) p += 12;
+    return [
+      { string: 3, fret: p + 2, amount: 'f', box: 'Major box', degrees: '2 → 3' },
+      { string: 2, fret: p + 3, amount: 'f', box: 'Major box', degrees: '5 → 6' },
+      { string: 1, fret: p + 3, amount: 'f', box: 'Major box', degrees: '1 → 2' },
+      { string: 3, fret: p, amount: 'f', box: 'Major box', degrees: '1 → 2' },
+    ];
+  }
+  const r = rootFret(tuning, key.pc);
+  return [
+    { string: 3, fret: r + 2, amount: 'f', box: 'Box 1', degrees: '4 → 5' },
+    { string: 2, fret: r + 3, amount: 'f', box: 'Box 1', degrees: '♭7 → 1' },
+    { string: 1, fret: r + 3, amount: 'f', box: 'Box 1', degrees: '♭3 → 4' },
+    { string: 3, fret: r, amount: 'f', box: 'Box 1', degrees: '♭3 → 4' },
+    { string: 2, fret: r + 5, amount: 'f', box: 'Box 2', degrees: '1 → 2' },
+    { string: 3, fret: r, amount: 'q', box: 'Blues curl', degrees: '♭3 curl' },
+  ];
+}
+
+/** Tab for the bend, e.g. "7b9", "7b8", "7b¼". */
+export function tabFor(t) {
+  if (t.cents % 100) return `${t.fret}b¼`;
+  return `${t.fret}b${t.fret + t.cents / 100}`;
+}
+
+export const TOLERANCES = [
+  { id: 'easy', label: 'Easy', cents: 30, hint: '±30¢, good while you learn' },
+  { id: 'normal', label: 'Normal', cents: 20, hint: '±20¢, in tune to most ears' },
+  { id: 'strict', label: 'Strict', cents: 10, hint: '±10¢, studio-tight' },
+];
+
+/** Keys conventionally written with flats (G minor → B♭, not A♯). */
+export function keyUsesFlats(keyId, mode) {
+  return mode === 'minor' ? ['G', 'C', 'D'].includes(keyId) : false;
+}
