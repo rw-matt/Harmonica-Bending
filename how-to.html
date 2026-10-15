@@ -25,6 +25,7 @@
   </script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-1V1MS5JSF1"></script>
   <script src="js/consent.js" defer></script>
+  <script src="js/pwa.js" defer></script>
   <title>How to Use the Harmonica Bending Trainer · 3 Easy Steps</title>
   <meta name="description" content="How to practice harmonica bends with a free online trainer: pick your key, choose a bend on the hole map, then play and watch the gauge settle in the green.">
   <link rel="canonical" href="https://harmonicabending.com/how-to">
@@ -39,6 +40,11 @@
   <meta name="theme-color" content="#f1f1f3" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0c1015" media="(prefers-color-scheme: dark)">
   <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="apple-touch-icon" href="apple-touch-icon.png">
+  <meta name="apple-mobile-web-app-title" content="Bend Trainer">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-capable" content="yes">
   <script src="js/theme.js"></script>
   <link rel="preload" href="fonts/league-spartan-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styles.css">
@@ -152,6 +158,7 @@
     <symbol id="i-key" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12V4h8l10 10-8 8z"/><circle cx="7.5" cy="8.5" r="1.5"/></g></symbol>
     <symbol id="i-mic" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="9" y="3" width="6" height="11" rx="3"/><path d="M5 11a7 7 0 0 0 14 0M12 18v3"/></g></symbol>
     <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-share" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 15V3M8 7l4-4 4 4"/><path d="M6 11H5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-8a1 1 0 0 0-1-1h-1"/></g></symbol>
   </svg>
 
   <nav class="rail" aria-label="Site">
@@ -202,6 +209,17 @@
         <p class="step-tip">Turn headphones off and hold the harmonica a few inches from the mic.</p>
       </article>
     </div>
+
+    <section class="card install" id="installBox" aria-labelledby="installTitle">
+      <img class="install-icon" src="icons/icon-192.png" alt="" width="64" height="64">
+      <div class="install-text">
+        <h2 class="display" id="installTitle">Use it like an app</h2>
+        <p>Add Harmonica Bending to your home screen and it opens full-screen like any other app, with its own icon. It even works offline.</p>
+        <p class="install-how" data-os="ios">On iPhone or iPad: in Safari, tap <span class="kbd"><svg aria-hidden="true"><use href="#i-share"/></svg>Share</span>, then <strong>Add to Home Screen</strong>.</p>
+        <p class="install-how" data-os="other">On Android or a computer: tap <strong>Install app</strong>, or open your browser's menu and choose <strong>Install app</strong> or <strong>Add to Home screen</strong>.</p>
+      </div>
+      <button type="button" class="btn btn-primary" id="installBtn" hidden>Install app</button>
+    </section>
 
     <section class="card cta-card">
       <div>

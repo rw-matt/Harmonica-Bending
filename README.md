@@ -23,6 +23,9 @@ how-to.html       How To page: three steps and a call to action back to the trai
 faq.html          FAQ page
 privacy.html      Privacy policy (update it if analytics, hosting or fonts change)
 favicon.svg
+manifest.webmanifest  App name, colors and icons (installable PWA)
+sw.js             Service worker: network-first pages, cache fallback for offline
+apple-touch-icon.png, icons/   Home-screen icons (regular + maskable)
 llms.txt          Plain-text site summary for AI assistants (llmstxt.org)
 robots.txt        Allows all crawlers, points to the sitemap
 sitemap.xml
@@ -33,8 +36,17 @@ js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
 js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
 js/consent.js     Cookie banner for Google Analytics
+js/pwa.js         Registers the service worker; drives the How To page's install box
 js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
 ```
+
+## Install as an app (PWA)
+
+The site is a Progressive Web App: people can add it to their home screen and it opens full-screen with its own icon, and works offline.
+
+- Pages, CSS and JS are fetched **network-first**, so deploys show up immediately with no cache-busting; the service worker cache is only used when offline. Fonts and icons are cache-first.
+- Bump `VERSION` in `sw.js` only when you change its `PRECACHE` list (for example, adding a new page).
+- If you replace the logo, regenerate the PNGs in `icons/` and `apple-touch-icon.png` (maskable icons keep the logo inside the middle 80%).
 
 ## Fonts
 

@@ -1,0 +1,24 @@
+{
+  "id": "/",
+  "name": "Harmonica Bending Trainer",
+  "short_name": "Bend Trainer",
+  "description": "Learn to bend notes on the harmonica. Pick your key and a bend, play into your mic, and get live pitch feedback and coaching.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0c1015",
+  "theme_color": "#0c1015",
+  "lang": "en",
+  "dir": "ltr",
+  "categories": ["music", "education"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "shortcuts": [
+    { "name": "How To", "short_name": "How To", "url": "/how-to", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] },
+    { "name": "Bending FAQ", "short_name": "FAQ", "url": "/faq", "icons": [{ "src": "/icons/icon-192.png", "sizes": "192x192" }] }
+  ]
+}
