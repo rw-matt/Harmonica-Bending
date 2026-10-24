@@ -1,0 +1,13 @@
+// Cloudflare Workers config. The site is static files served straight from the repo root,
+// matching what Workers Builds inferred before this file existed: clean URLs (faq.html → /faq)
+// and a plain 404 for unknown paths are Cloudflare's defaults.
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "harmonica-bending",
+  "compatibility_date": "2026-10-23",
+  "assets": {
+    "directory": "."
+  },
+  // Branch builds run `npx wrangler preview`, which needs this block (it can be empty).
+  "previews": {}
+}
