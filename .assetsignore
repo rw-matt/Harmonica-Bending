@@ -1,0 +1,3 @@
+# Files in the repo root that Cloudflare shouldn't serve as part of the site.
+.git
+wrangler.jsonc
