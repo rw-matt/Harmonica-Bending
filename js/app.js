@@ -3,6 +3,9 @@ import {
   midiToFreq, freqToMidi, keyFeel, holeTip,
 } from './harmonica.js';
 import { createDetector, createSmoother } from './pitch.js';
+import {
+  createMeter, initReels, reels, createCounter, press, latch, pointerTo, knobTo, nailed, powerOn,
+} from './gear.js';
 
 /* ───────── helpers ───────── */
 const $ = (id) => document.getElementById(id);
@@ -20,6 +23,12 @@ const GAUGE_SPAN = 1.3;       // the gauge runs from the natural note to 130% of
 /** Wrap ♭/♯ so the display font doesn't fall back to an odd glyph. */
 const acc = (s) => s.replace(/([♭♯])/g, '<span class="acc">$1</span>');
 const plain = (midi) => noteName(midi, state.key.root, false);
+const look = () => document.documentElement.dataset.look;
+
+// The order we suggest learning bends in: easiest first, blow bends last.
+const LESSON = ['4d1', '1d1', '6d1', '2d1', '3d1', '2d2', '3d2', '3d3', '8b1', '9b1', '10b1', '10b2'];
+const meter = createMeter($('meter'), { span: 1.3 });
+const counter = createCounter($('wheels'));
 
 /* ───────── state ───────── */
 const state = {
@@ -33,6 +42,7 @@ const state = {
   trace: [],
   attempt: null,
   results: [],   // this page visit only
+  nailedIds: new Set(),   // lesson-path ticks, this page visit only
   mood: '',
 };
 
@@ -50,31 +60,39 @@ function toggleSheet(stepId, open) {
     $(sheet).hidden = !show;
     $(s).setAttribute('aria-expanded', String(show));
   }
+  placePointers(false);
 }
 
-function renderKeys() {
+function renderKeys(animate) {
   const std = KEYS.filter((k) => !k.variant), vars = KEYS.filter((k) => k.variant);
-  const btn = (k) => `<button type="button" class="key" data-key="${k.id}" aria-pressed="${k.id === state.key.id}"
-      title="${k.label} harmonica · hole 1 = ${noteName(k.root, k.root)}">${k.label}</button>`;
+  // --i places each standard key around the Hi-fi selector knob (G at the far left, F♯ far right).
+  const btn = (k, i) => `<button type="button" class="key" data-key="${k.id}" aria-pressed="${k.id === state.key.id}" style="--i:${i}"
+      title="${k.label} harmonica · hole 1 = ${noteName(k.root, k.root)}">${acc(k.label)}</button>`;
   $('keys').innerHTML = std.map(btn).join('');
   $('variantKeys').innerHTML = vars.map(btn).join('');
-  if (state.key.variant) { $('variantKeys').hidden = false; $('moreKeys').setAttribute('aria-expanded', 'true'); }
   const f = keyFeel(state.key.root);
   $('feel').innerHTML = `<strong>${state.key.label} harmonica · ${f.label}.</strong> ${f.tip}`;
-  $('stepKeyVal').textContent = state.key.label;
+  $('stepKeyVal').innerHTML = acc(state.key.label);
+  $('keyChipVal').innerHTML = acc(state.key.label);
+  $('keyBig').innerHTML = acc(state.key.variant ? state.key.label.split(' ')[1] : state.key.label);
+  // Low/high harps point the knob at their letter name.
+  const slot = ((state.key.root % 12) - 7 + 12) % 12;
+  knobTo($('knob'), -148.5 + slot * 27, animate);
 }
 
 function setKey(id) {
+  if (id === state.key.id) return;
   state.key = KEYS.find((k) => k.id === id) || state.key;
   store.set('key', state.key.id);
-  rebuild();
+  rebuild(true);
+  latch(document.querySelector(`.key[data-key="${state.key.id}"]`));
 }
 
 const depthLabel = (t) => (t.steps < 0 ? `↓${['', '½', '1', '1½'][-t.steps]}` : '↑');
 const shortName = (t) => `${t.hole} ${t.kind === 'draw-bend' || t.kind === 'overdraw' ? 'draw' : 'blow'} ${depthLabel(t)}`;
 
 /* ───────── targets + hole map ───────── */
-function rebuild() {
+function rebuild(animate) {
   const root = state.key.root;
   state.targets = buildTargets(root);
   state.noteMap = buildNoteMap(root, state.advanced);
@@ -83,7 +101,7 @@ function rebuild() {
   state.target = t;
   state.targetId = t.id;
   if (audio.analyser) makeDetector();
-  renderKeys(); renderHoles(); renderTarget();
+  renderKeys(animate); renderHoles(); renderTarget();
   state.trace = []; drawTrace();
 }
 
@@ -114,19 +132,54 @@ function holeMapHTML(live) {
 }
 
 function renderHoles() {
-  $('holes').innerHTML = holeMapHTML(true);
-  $('sheetHoles').innerHTML = holeMapHTML(false);
+  const ptr = '<div class="dial-ptr" aria-hidden="true"></div>';
+  $('holes').innerHTML = ptr + holeMapHTML(true);
+  $('sheetHoles').innerHTML = ptr + holeMapHTML(false);
   $('advToggle').textContent = `${state.advanced ? 'Hide' : 'Show'} overblows & overdraws (advanced)`;
+  placePointers(false);
+}
+
+/** Hi-fi: slide each dial's pointer to the target hole and draw the scale line under the numbers. */
+function placePointers(animate) {
+  for (const map of [$('holes'), $('sheetHoles')]) {
+    const hole = map.querySelector(`.hole[data-hole="${state.target.hole}"]`);
+    pointerTo(map.querySelector('.dial-ptr'), hole, animate && !map.closest('[hidden]'));
+    const num = hole?.querySelector('.num');
+    if (num && num.offsetHeight) map.style.setProperty('--scale-y', `${num.offsetTop + num.offsetHeight + 2}px`);
+  }
 }
 
 function selectTarget(id) {
   const t = state.targets.find((x) => x.id === id);
   if (!t) return;
+  const moved = t.hole !== state.target.hole;
   state.target = t; state.targetId = id; store.set('target', id);
   state.attempt = null; state.trace = [];
   document.querySelectorAll('.bend').forEach((c) => c.classList.toggle('is-selected', c.dataset.target === id));
   document.querySelectorAll('.hole').forEach((el) => el.classList.toggle('is-target', el.dataset.hole === String(t.hole)));
+  if (moved) document.querySelectorAll(`.hole[data-hole="${t.hole}"] .num`).forEach(latch);
+  document.querySelectorAll(`.bend[data-target="${id}"]`).forEach(latch);
+  placePointers(true);
   renderTarget(); drawTrace();
+}
+
+/* ───────── lesson path + next bend ───────── */
+function renderPath() {
+  const root = state.key.root;
+  const lesson = LESSON.map((id) => state.targets.find((x) => x.id === id)).filter(Boolean);
+  const at = lesson.findIndex((x) => x.id === state.targetId);
+  const start = Math.max(0, Math.min(at < 0 ? 0 : at, lesson.length - 4));
+  const name = (t) => `Hole ${t.hole} · ${t.kind === 'blow-bend' ? 'blow' : 'draw'} · ${['', '½', '1', '1½'][-t.steps]}`;
+  $('path').innerHTML = lesson.slice(start, start + 4).map((t, i) => {
+    const idx = start + i, now = t.id === state.targetId, done = state.nailedIds.has(t.id);
+    const tag = now ? 'Practising' : idx === at + 1 ? 'Up next' : '';
+    return `<li class="${now ? 'is-now' : ''}${done ? ' is-done' : ''}"><button type="button" data-target="${t.id}"
+      title="${describeTarget(t, root).title}"><b>${idx + 1}</b><span>${name(t)}</span><em>${tag}</em></button></li>`;
+  }).join('');
+  const next = lesson[(at + 1) % lesson.length] || lesson[0];
+  $('nextBtn').dataset.target = next.id;
+  $('nextName').innerHTML = `${name(next)} →`;
+  $('seeAll').textContent = `${lesson.filter((t) => state.nailedIds.has(t.id)).length} of ${lesson.length} · see all bends →`;
 }
 
 function renderTarget() {
@@ -136,55 +189,37 @@ function renderTarget() {
   const amt = ['', 'a half step', 'a whole step', 'a step and a half'][-t.steps];
   if (t.steps < 0) {
     $('headline').innerHTML = `Bend the ${t.hole} ${reed} down ${amt}.`;
-    $('subline').innerHTML = `Play ${acc(nat)}, then pull it down toward ${acc(tgt)} until the gauge settles in the green.`;
+    $('subline').innerHTML = `Play ${acc(nat)}, then pull it down toward ${acc(tgt)} until the needle settles in the zone.`;
   } else {
     $('headline').innerHTML = `${t.kind === 'overblow' ? 'Overblow' : 'Overdraw'} hole ${t.hole}.`;
     $('subline').innerHTML = `From ${acc(nat)}, let the note pop up to ${acc(tgt)}. This one is advanced, so be patient.`;
   }
   $('stepBendVal').textContent = shortName(t);
-  $('playNatural').querySelector('span').innerHTML = `Natural ${acc(nat)}`;
-  $('playTarget').querySelector('span').innerHTML = `Target ${acc(tgt)}`;
+  $('playNatural').querySelector('span:last-child').innerHTML = `Natural ${acc(nat)}`;
+  $('playTarget').querySelector('span:last-child').innerHTML = `Target ${acc(tgt)}`;
   $('gNat').innerHTML = `${acc(nat)} · natural`;
   $('gTgt').innerHTML = `${acc(tgt)} · target`;
   $('holeTipTitle').textContent = `Hole ${t.hole} tip`;
   $('holeTip').textContent = holeTip(t);
   drawGaugeFrame();
   setGauge(null);
+  renderPath();
 }
 
-/* ───────── bend-depth gauge ───────── */
-const G = { cx: 120, cy: 122, r: 100 };
-const gPoint = (f) => {
-  const a = Math.PI * (1 - clamp(f, 0, 1));
-  return [G.cx + G.r * Math.cos(a), G.cy - G.r * Math.sin(a)];
-};
-const gArc = (f0, f1) => {
-  const [x0, y0] = gPoint(f0), [x1, y1] = gPoint(f1);
-  return `M${x0.toFixed(2)} ${y0.toFixed(2)} A${G.r} ${G.r} 0 0 1 ${x1.toFixed(2)} ${y1.toFixed(2)}`;
-};
-
+/* ───────── bend-depth meter (the needle) ───────── */
 function drawGaugeFrame() {
   const size = Math.abs(state.target.steps) * 100;
-  $('gTrack').setAttribute('d', gArc(0, 1));
-  $('gZone').setAttribute('d', gArc((size - ON_TARGET_CENTS) / size / GAUGE_SPAN, (size + ON_TARGET_CENTS) / size / GAUGE_SPAN));
+  meter.setZone((size - ON_TARGET_CENTS) / size / GAUGE_SPAN, (size + ON_TARGET_CENTS) / size / GAUGE_SPAN);
 }
 
 function setGauge(c) {
-  const gauge = document.querySelector('.gauge');
   if (c == null) {
-    gauge.setAttribute('class', 'gauge is-idle');
+    meter.set(null);
     $('gaugePct').textContent = '0%';
     return;
   }
-  const tc = state.target.steps * 100;
-  const p = c / tc;
-  const f = clamp(p / GAUGE_SPAN, 0, 1);
-  const dist = Math.abs(c - tc);
-  const on = dist <= ON_TARGET_CENTS, over = !on && p > 1;
-  gauge.setAttribute('class', `gauge${on ? ' is-on' : over ? ' is-over' : ''}`);
-  $('gFill').setAttribute('d', gArc(0, Math.max(f, 0.001)));
-  const [kx, ky] = gPoint(f);
-  $('gKnob').setAttribute('cx', kx.toFixed(2)); $('gKnob').setAttribute('cy', ky.toFixed(2));
+  const p = c / (state.target.steps * 100);
+  meter.set(p / GAUGE_SPAN);
   $('gaugePct').textContent = `${Math.round(clamp(p, 0, 9.99) * 100)}%`;
 }
 
@@ -290,8 +325,8 @@ function finishAttempt(a) {
   }
 
   const r = $('result');
-  r.className = `card result ${cls}`;
-  r.innerHTML = `<span class="lbl">Last result</span><h3 class="display">${title}</h3><p class="muted">${msg}</p>
+  r.className = `result ${cls}`;
+  r.innerHTML = `<span class="cap">Last take</span><h3 class="display">${title}</h3><p>${msg}</p>
     <div class="stats">
       <span class="chip">${up ? 'Highest' : 'Deepest'}: ${deepName}</span>
       <span class="chip">Closest: ${a.closest === Infinity ? '—' : `${Math.round(a.closest)}¢ off`}</span>
@@ -299,12 +334,19 @@ function finishAttempt(a) {
     </div>`;
   state.results.push(cls);
   renderSession();
+  if (cls === 'good') {
+    nailed($('nailedFlash'), document.querySelectorAll('#micBtn .lamp, .hole.is-target .num'));
+    state.nailedIds.add(t.id);
+    renderPath();
+  }
   if (typeof gtag === 'function') gtag('event', 'bend_attempt', { instrument: 'harmonica', result: cls, bend: `${state.key.id}-${t.id}` });
 }
 
 function renderSession() {
   const good = state.results.filter((x) => x === 'good').length;
-  $('sessionScore').textContent = `${good} / ${state.results.length}`;
+  counter.set(good);
+  $('sessionScore').textContent = `of ${state.results.length}`;
+  $('sessionScore').setAttribute('aria-label', `${good} nailed of ${state.results.length} tries`);
   $('pips').innerHTML = state.results.slice(-24).map((x) => `<i class="${x}" title="${x === 'good' ? 'Nailed' : x === 'close' ? 'Close' : 'Missed'}"></i>`).join('');
 }
 
@@ -315,7 +357,10 @@ let colors = {};
 function readColors() {
   const cs = getComputedStyle(document.documentElement);
   const v = (n) => cs.getPropertyValue(n).trim();
-  colors = { ink: v('--ink'), ink3: v('--ink-3'), good: v('--good'), bad: v('--bad'), accent: v('--accent') };
+  // Hi-fi draws a green phosphor line on a scope; Tape draws a blue pen on chart paper.
+  colors = look() === 'hifi'
+    ? { ink: '#7cffb0', ink3: 'rgba(124,255,176,.55)', grid: 'rgba(70,210,127,.12)', band: '#46d27f', line: '#7cffb0', over: '#ffb38a', glow: '#46d27f', paper: null }
+    : { ink: '#2a2418', ink3: '#8a7f68', grid: 'rgba(231,160,138,.28)', band: '#e2622b', line: '#1f3fa8', over: '#b3261e', glow: null, paper: '#fbf6e6' };
   drawTrace();
 }
 
@@ -335,26 +380,37 @@ function drawTrace(now = performance.now()) {
   const y = (c) => ((top - c) / (top - bot)) * H;
   g.clearRect(0, 0, W, H);
 
+  // background grid: the scope's graticule, or chart paper that scrolls while listening
+  g.lineWidth = 1;
+  g.strokeStyle = colors.grid;
+  const step = colors.paper ? 12 : W / 8;
+  const shift = colors.paper && state.listening ? ((now / TRACE_MS) * W) % (step * 5) : 0;
+  for (let x = W - shift, i = 0; x > -step; x -= step, i++) {
+    g.globalAlpha = colors.paper && i % 5 ? 0.45 : 1;
+    g.beginPath(); g.moveTo(Math.round(x) + 0.5, 0); g.lineTo(Math.round(x) + 0.5, H); g.stroke();
+  }
+  if (colors.paper) for (let yy = 0; yy < H; yy += step) { g.globalAlpha = (yy / step) % 5 ? 0.45 : 1; g.beginPath(); g.moveTo(0, yy + 0.5); g.lineTo(W, yy + 0.5); g.stroke(); }
+  g.globalAlpha = 1;
+
   // target band
-  g.fillStyle = colors.good;
+  g.fillStyle = colors.band;
   g.globalAlpha = 0.16;
   g.fillRect(0, y(tc + ON_TARGET_CENTS), W, y(tc - ON_TARGET_CENTS) - y(tc + ON_TARGET_CENTS));
   g.globalAlpha = 1;
 
-  // semitone grid with note labels
-  g.font = '600 13px "League Spartan", -apple-system, sans-serif';
+  // semitone lines with note labels
+  g.font = `700 12px ${look() === 'hifi' ? '"Barlow Condensed", "Barlow"' : '"Hanken Grotesk"'}, system-ui, sans-serif`;
   g.textBaseline = 'middle';
-  g.lineWidth = 1;
   for (let s = Math.ceil(bot / 100); s <= Math.floor(top / 100); s++) {
     const yy = y(s * 100);
     const isNat = s === 0, isTgt = s * 100 === tc;
-    g.strokeStyle = isTgt ? colors.good : colors.ink3;
-    g.globalAlpha = isNat || isTgt ? 0.6 : 0.2;
+    g.strokeStyle = isTgt ? colors.band : colors.ink3;
+    g.globalAlpha = isNat || isTgt ? 0.7 : 0.25;
     g.setLineDash(isNat || isTgt ? [] : [3, 5]);
     g.beginPath(); g.moveTo(0, yy); g.lineTo(W, yy); g.stroke();
     g.setLineDash([]);
     g.globalAlpha = isNat || isTgt ? 1 : 0.7;
-    g.fillStyle = isTgt ? colors.good : colors.ink3;
+    g.fillStyle = isTgt ? colors.band : colors.ink3;
     g.textAlign = 'right';
     g.fillText(noteName(t.naturalMidi + s, state.key.root, false), W - 10, yy - 9);
     if (isNat || isTgt) { g.textAlign = 'left'; g.fillText(isNat ? 'NATURAL' : 'TARGET', 10, yy - 9); }
@@ -363,19 +419,24 @@ function drawTrace(now = performance.now()) {
 
   // the player's pitch
   const pts = state.trace;
-  g.lineWidth = 3; g.lineCap = 'round'; g.lineJoin = 'round';
+  g.lineWidth = 2.5; g.lineCap = 'round'; g.lineJoin = 'round';
+  if (colors.glow) { g.shadowColor = colors.glow; g.shadowBlur = 10; }
   for (let i = 1; i < pts.length; i++) {
     const a = pts[i - 1], b = pts[i];
     if (a.c == null || b.c == null) continue;
     const xa = W - ((now - a.t) / TRACE_MS) * W, xb = W - ((now - b.t) / TRACE_MS) * W;
-    const dist = Math.abs(b.c - tc);
-    g.strokeStyle = dist <= ON_TARGET_CENTS ? colors.good : (b.c / tc > 1 ? colors.bad : colors.accent);
+    // Phosphor fades with age on the scope; ink stays put on paper.
+    g.globalAlpha = colors.glow ? clamp(1 - (now - b.t) / TRACE_MS, 0.15, 1) : 1;
+    g.strokeStyle = b.c / tc > 1 && Math.abs(b.c - tc) > ON_TARGET_CENTS ? colors.over : colors.line;
     g.beginPath(); g.moveTo(xa, clamp(y(a.c), -10, H + 10)); g.lineTo(xb, clamp(y(b.c), -10, H + 10)); g.stroke();
   }
+  g.globalAlpha = 1; g.shadowBlur = 0;
   const last = pts[pts.length - 1];
   if (last && last.c != null && now - last.t < 120) {
+    const ly = clamp(y(last.c), 4, H - 4);
     g.fillStyle = colors.ink;
-    g.beginPath(); g.arc(W - 4, clamp(y(last.c), 4, H - 4), 5, 0, Math.PI * 2); g.fill();
+    if (colors.paper) g.fillRect(W - 9, ly - 20, 8, 20); // the pen
+    else { g.beginPath(); g.arc(W - 4, ly, 5, 0, Math.PI * 2); g.fill(); }
   }
 }
 
@@ -402,7 +463,8 @@ function toast(msg) {
 
 function setListeningUI(on) {
   $('micBtn').classList.toggle('is-live', on);
-  $('micBtn').innerHTML = on ? '<svg><use href="#i-stop"/></svg><span>Stop listening</span>' : '<svg><use href="#i-mic"/></svg><span>Start listening</span>';
+  $('micBtn').innerHTML = `<span class="lamp"></span>${on ? '<svg><use href="#i-stop"/></svg><span class="lbl">Stop</span>' : '<svg><use href="#i-mic"/></svg><span class="lbl">Listen</span>'}`;
+  reels(on);
   $('stepPlay').classList.toggle('is-on', on);
   $('stepPlayVal').textContent = on ? 'Listening' : 'Play';
   $('traceEmpty').hidden = on;
@@ -449,7 +511,7 @@ function stopMic() {
   state.listening = false; state.attempt = null;
   setListeningUI(false);
   setStatus('', 'Mic off');
-  $('where').textContent = 'Press Start listening, then play.';
+  $('where').textContent = 'Press Listen, then play.';
   updateLive(null); setGauge(null); setMood('');
   clearHits(); drawTrace();
 }
@@ -550,10 +612,16 @@ function playTake(delay = 0) {
 /* ───────── events ───────── */
 document.addEventListener('click', (e) => {
   const k = e.target.closest('[data-key]');
-  if (k) { setKey(k.dataset.key); return toggleSheet('stepKey', false); }
+  if (k) return setKey(k.dataset.key);   // stay open so the knob/tape box move is visible
   const tg = e.target.closest('[data-target]');
-  if (tg) { selectTarget(tg.dataset.target); if (tg.closest('#bendSheet')) toggleSheet('stepBend', false); return; }
-  if (e.target.closest('[data-close]')) return toggleSheet(null);
+  if (tg) {
+    selectTarget(tg.dataset.target);
+    if (tg.closest('#bendSheet')) toggleSheet('stepBend', false);
+    if (tg.closest('.next-row')) { press(tg); document.querySelector('.intro').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    return;
+  }
+  const done = e.target.closest('[data-close]');
+  if (done) return toggleSheet(done.closest('#keySheet') ? 'stepBend' : null, true);
   if (e.target.closest('#advToggle')) {
     state.advanced = !state.advanced; store.set('adv', state.advanced);
     return rebuild();
@@ -564,25 +632,27 @@ $('stepKey').addEventListener('click', () => toggleSheet('stepKey'));
 $('stepBend').addEventListener('click', () => toggleSheet('stepBend'));
 $('stepPlay').addEventListener('click', () => {
   toggleSheet(null);
-  if (!state.listening) document.querySelector('.instrument').scrollIntoView({ behavior: 'smooth', block: 'center' });
+  if (!state.listening) document.querySelector('.machine').scrollIntoView({ behavior: 'smooth', block: 'center' });
   state.listening ? stopMic() : startMic();
 });
-$('moreKeys').addEventListener('click', () => {
-  const el = $('variantKeys'); el.hidden = !el.hidden;
-  $('moreKeys').setAttribute('aria-expanded', String(!el.hidden));
-});
+$('keyChip').addEventListener('click', () => { toggleSheet('stepKey', true); $('keySheet').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
+$('seeAll').addEventListener('click', () => { toggleSheet('stepBend', true); $('bendSheet').scrollIntoView({ behavior: 'smooth', block: 'start' }); });
 $('micBtn').addEventListener('click', () => (state.listening ? stopMic() : startMic()));
+document.querySelectorAll('.strip .gkey').forEach((b) => b.addEventListener('pointerdown', () => press(b)));
 $('playNatural').addEventListener('click', () => playNote(state.target.naturalMidi));
 $('playTarget').addEventListener('click', () => playNote(state.target.targetMidi));
 $('playSlide').addEventListener('click', playSlide);
 $('recBtn').addEventListener('click', toggleRecord);
 $('playTake').addEventListener('click', () => playTake());
 $('compareTake').addEventListener('click', () => { playNote(state.target.targetMidi, 1.2); playTake(1500); });
-$('resetSession').addEventListener('click', () => { state.results = []; renderSession(); });
-window.addEventListener('themechange', readColors);
+$('resetSession').addEventListener('click', () => { state.results = []; state.nailedIds.clear(); renderSession(); renderPath(); });
+window.addEventListener('lookchange', () => { readColors(); placePointers(false); });
 
 new ResizeObserver(sizeCanvas).observe(canvas);
+new ResizeObserver(() => placePointers(false)).observe($('holes'));
+initReels();
 rebuild();
 renderSession();
 readColors();
 sizeCanvas();
+powerOn();
