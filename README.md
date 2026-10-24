@@ -2,16 +2,16 @@
 
 A free harmonica bending trainer and FAQ for the 10-hole diatonic harmonica, planned for **harmonicabending.com**.
 
-- **`index.html`**: the Bend Trainer, laid out as three steps. Pick a key (all 12, plus Low D/E/F/G and High G), choose a bend, and play. The mic shows your pitch on a bend-depth gauge and a live trace, scores each attempt, plays reference tones and the slide, and lets you record a take to compare.
+- **`index.html`**: the Bend Trainer, laid out as three steps. Pick a key (all 12, plus Low D/E/F/G and High G), choose a bend, and play. The mic shows your pitch on a bend-depth needle meter and a live trace, scores each attempt, plays reference tones and the slide, and lets you record a take to compare.
 - **`faq.html`**: the 10 most common bending questions, answered in our own words, with links to video lessons and sources.
 
-Light and dark themes follow the device setting until the user picks one with the sun/moon toggle.
+The harmonica pages come in two **looks**, picked from the Look button in the header: **Hi-fi** (a '60s amp: black glass, blue meter, green lamps) and **Tape** (a '70s reel-to-reel: cream panels, ivory keys, orange). The look follows the device's dark/light setting (dark → Hi-fi, light → Tape) until the user picks one. Both looks share the same HTML; `css/gear.css` switches tokens and the gear-specific parts on `html[data-look]`, and `js/gear.js` adds the motion (GSAP): a weighted needle, reels that spin while listening, key travel, the dial pointer, the key-selector knob, a rolling "nailed" counter, and a power-down/power-up when switching looks. Visitors who prefer reduced motion get the end states without animation, and the needle still tracks pitch.
 
 No framework, no build step and no backend. Plain HTML, CSS and JavaScript modules.
 
 ## What gets saved
 
-Only settings are kept in the browser's `localStorage`: theme, harmonica key, selected bend and the advanced toggle. Practice results ("Today's practice") and recorded takes live in memory and are gone when the page closes, and the page says so. Microphone audio is processed in the browser and never uploaded.
+Only settings are kept in the browser's `localStorage`: look (or theme, on the guitar page), harmonica key, selected bend and the advanced toggle. Practice results ("Nailed today" and lesson-path ticks) and recorded takes live in memory and are gone when the page closes, and the page says so. Microphone audio is processed in the browser and never uploaded.
 
 Both pages load Google Analytics 4 (`G-1V1MS5JSF1`) with Consent Mode v2. In the EEA, UK and Switzerland analytics cookies stay off until the visitor clicks "Allow analytics" in the banner (`js/consent.js`), which only appears for European time zones; everywhere else analytics is on by default. Anyone can change their choice from "Cookie settings" in the footer, and declining deletes any `_ga` cookies. Ads storage is always denied. GA4's enhanced measurement records outbound clicks, so Ko-fi button clicks show up without extra code.
 
@@ -31,23 +31,27 @@ llms.txt          Plain-text site summary for AI assistants (llmstxt.org)
 robots.txt        Allows all crawlers, points to the sitemap
 sitemap.xml
 scripts/build-faq-schema.py   Rebuilds the FAQ page's JSON-LD from its visible answers
-css/styles.css    Fonts, light/dark tokens + all pages
-fonts/            Self-hosted League Spartan (variable woff2, Latin + Latin Extended) and its OFL license
+css/gear.css      Harmonica pages: fonts, Hi-fi/Tape tokens and components
+css/styles.css    Guitar page: fonts, light/dark tokens
+fonts/            Self-hosted Barlow, Barlow Condensed and Hanken Grotesk (harmonica pages) and League Spartan (guitar page), with their OFL licenses
 js/harmonica.js   Richter layout, key octaves, bends/overblows, tips
 js/pitch.js       YIN pitch detector + median smoothing
-js/theme.js       Light/dark toggle (loads in <head> to avoid a flash)
+js/look.js        Hi-fi/Tape look + the Look picker (loads in <head> to avoid a flash)
+js/gear.js        Motion for the looks: needle, reels, keys, knob, counter, look switch, scroll reveals
+js/vendor/        GSAP 3.12.5 core, CustomEase and ScrollTrigger (self-hosted; GSAP's free Standard License)
+js/theme.js       Light/dark toggle for the guitar page
 js/consent.js     Cookie banner for Google Analytics
 js/pwa.js         Registers the service worker; drives the How To page's install box
 js/guitar.js      Guitar model: tunings, strings, bend sizes, tips
 js/guitar-app.js  Guitar trainer UI (self-contained, so it can move to its own site)
-js/app.js         Trainer UI, mic loop, scoring, gauge, trace, tones, recording
+js/app.js         Trainer UI, mic loop, scoring, meter, trace, lesson path, tones, recording
 ```
 
 ## Guitar Bending Trainer (experiment)
 
 `/guitar-bending` is laid out for guitarists: pick a key (minor or major) and get one-tap "classic bends" (minor/major pentatonic box positions), a realistic neck drawn like tab, the bend shown as tab (`7b9`), a big readout readable from a music stand, and Space to start/stop listening. Settings (gear menu) cover tuning, input device (audio interfaces/USB amps), accuracy (Easy ±30¢ / Normal ±20¢ / Strict ±10¢) and a left-handed neck.
 
-It reuses the pitch detector (`js/pitch.js`), styles and theme, with its own model and UI in `js/guitar.js` and `js/guitar-app.js`. To move it to its own site, copy those two files plus `guitar-bending.html`, `js/pitch.js`, `js/theme.js`, `css/styles.css` and `fonts/`, then update the brand, canonical URLs and schema.
+It reuses the pitch detector (`js/pitch.js`) and keeps the original light/dark styles (`css/styles.css`, `js/theme.js`), with its own model and UI in `js/guitar.js` and `js/guitar-app.js`. To move it to its own site, copy those two files plus `guitar-bending.html`, `js/pitch.js`, `js/theme.js`, `css/styles.css` and `fonts/`, then update the brand, canonical URLs and schema.
 
 Both trainers send a GA4 event, `bend_attempt`, with `instrument` (`harmonica` or `guitar`), `result` (`good`, `close`, `miss`), `bend` and, for guitar, `accuracy`, so you can compare usage in Analytics. Register `instrument` and `result` as custom dimensions in GA4 to break reports down by them.
 

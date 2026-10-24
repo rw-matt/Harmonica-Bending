@@ -2,12 +2,14 @@
 // Pages, CSS and JS are network-first, so a deploy shows up on the next load with no
 // version bumping; the cache is only the offline fallback. Fonts and icons rarely change,
 // so they're cache-first. Bump VERSION only when the precache list below changes.
-const VERSION = 'hb-v1';
+const VERSION = 'hb-v2';
 const PRECACHE = [
   '/', '/how-to', '/faq', '/privacy',
-  '/css/styles.css', '/js/app.js', '/js/harmonica.js', '/js/pitch.js', '/js/theme.js', '/js/consent.js', '/js/pwa.js',
-  '/fonts/league-spartan-latin.woff2', '/favicon.svg', '/manifest.webmanifest',
-  '/icons/icon-192.png', '/icons/icon-512.png',
+  '/css/gear.css', '/js/app.js', '/js/harmonica.js', '/js/pitch.js', '/js/look.js', '/js/gear.js', '/js/consent.js', '/js/pwa.js',
+  '/js/vendor/gsap.min.js', '/js/vendor/CustomEase.min.js', '/js/vendor/ScrollTrigger.min.js',
+  '/fonts/barlow-400-latin.woff2', '/fonts/barlow-500-latin.woff2', '/fonts/barlow-600-latin.woff2',
+  '/fonts/barlow-condensed-600-latin.woff2', '/fonts/barlow-condensed-700-latin.woff2', '/fonts/hanken-grotesk-latin.woff2',
+  '/favicon.svg', '/manifest.webmanifest', '/icons/icon-192.png', '/icons/icon-512.png',
 ];
 
 self.addEventListener('install', (event) => {
