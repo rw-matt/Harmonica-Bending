@@ -185,7 +185,7 @@ svg { display: block; }
 /* ───────── hole map: Hi-fi radio dial / Tape ivory keys ───────── */
 .holes-scroll { overflow-x: auto; scrollbar-width: thin; }
 /* Each hole is a column on a shared 5-row subgrid, so blow bends above holes 8–10 don't push their numbers out of line. */
-.holes { position: relative; display: grid; grid-template-columns: repeat(10, minmax(64px, 1fr)); grid-template-rows: repeat(5, auto); column-gap: 8px; min-width: 700px; padding: 18px 16px; }
+.holes { position: relative; display: grid; grid-template-columns: repeat(10, minmax(64px, 1fr)); grid-template-rows: repeat(5, auto); column-gap: 8px; width: max-content; min-width: 100%; padding: 18px 16px; }
 .hole { display: grid; grid-row: span 5; grid-template-rows: subgrid; justify-items: center; row-gap: 6px; position: relative; z-index: 1; }
 .hole .bends { display: flex; flex-direction: column; gap: 6px; width: 100%; align-items: center; }
 .hole .bends.up { flex-direction: column-reverse; justify-content: flex-start; align-self: end; }
